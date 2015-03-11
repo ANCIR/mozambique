@@ -58,9 +58,6 @@ def end_session(sess):
 def load_by_id(sess, id):
     q = QUERY.copy()
     q['expressao1'] = id
-    if id % 100 == 0:
-        end_session(sess)
-        sess = make_session()
     res = sess.post(QUERY_URL, data=q)
 
     if '../../index.php?erro=-' in res.content:
@@ -92,15 +89,23 @@ def cache_path(id):
 def scrape():
     try:
         sess = make_session()
+        req_count = 0
         for i in xrange(1, 200000):
             path = cache_path(i)
             if os.path.isfile(path):
                 print '[%s] skipping: %s' % (i, path)
                 continue
+
+            if req_count % 80 == 0:
+                print '[%s] resetting session' % i
+                end_session(sess)
+                sess = make_session()
+            req_count += 1
+
             data = load_by_id(sess, i)
             if data is None:
                 print '[%s] failed: sleeping' % i
-                time.sleep(120)
+                time.sleep(60 * 5)
             else:
                 dlen = len(data['body'])
                 print '[%s] saving: %s (%s)' % (i, path, dlen)
