@@ -36,7 +36,7 @@ def make_session():
     sess.headers.update({'User-Agent': UA})
     sess.get(URL)
     data = {
-        'username': 'canallimitada',
+        'username': 'CIPUBLICA',
         'password': '1234',
         'entrar': 'Entrar',
         'local_ip': None,
@@ -96,9 +96,10 @@ def scrape():
                 print '[%s] skipping: %s' % (i, path)
                 continue
 
-            if req_count % 80 == 0:
+            if req_count > 0 and req_count % 80 == 0:
                 print '[%s] resetting session' % i
                 end_session(sess)
+                time.sleep(30)
                 sess = make_session()
             req_count += 1
 
