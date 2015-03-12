@@ -8,7 +8,6 @@ __pycache__/
 # Distribution / packaging
 .Python
 env/
-data/
 build/
 develop-eggs/
 dist/
@@ -54,5 +53,9 @@ docs/_build/
 # PyBuilder
 target/
 
-pan_*
 *.sqlite3
+.env
+
+data/boletin/*
+data/hermes/*
+data/flexicadastre/*

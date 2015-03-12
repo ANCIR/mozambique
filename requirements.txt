@@ -1,3 +1,7 @@
-requests
-lxml
+# ETL has extra dependencies
 
+requests
+googlesheets
+dataset
+lxml
+psycopg2

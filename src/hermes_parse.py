@@ -4,7 +4,11 @@ import re
 import json
 from lxml import html
 from normality import slugify
-import dataset
+# import dataset
+
+from common import DATA_PATH, database
+
+PATH = os.path.join(DATA_PATH, 'hermes')
 
 MES = {
     "01": "Janeiro",
@@ -21,9 +25,8 @@ MES = {
     "12": "Dezembro"
 }
 
-engine = dataset.connect('sqlite:///pandora.sqlite3')
-companies = engine['company']
-relations = engine['relation']
+companies = database['hermes_company']
+relations = database['hermes_relation']
 
 
 def parse(path, data):
@@ -57,6 +60,9 @@ def parse(path, data):
         if len(value.strip()) and len(key):
             data[key] = value.strip()
 
+    if 'id_do_registo' not in data:
+        print 'No ID, skipping'
+        return
     print 'Parsing %r' % data.get('nome_da_entidade')
     companies.upsert(data, ['id_do_registo'])
     for rel in rels:
@@ -78,6 +84,5 @@ def notices():
 
 if __name__ == '__main__':
     notices()
-    dataset.freeze(companies, format='csv', filename='pan_companies.csv')
-    dataset.freeze(relations, format='csv', filename='pan_relations.csv')
-
+    # dataset.freeze(companies, format='csv', filename='pan_companies.csv')
+    # dataset.freeze(relations, format='csv', filename='pan_relations.csv')

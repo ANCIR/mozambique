@@ -3,6 +3,10 @@ import json
 import time
 import requests
 
+from common import DATA_PATH
+
+PATH = os.path.join(DATA_PATH, 'hermes')
+
 URL = 'http://hermes.panbox.co.mz/index.php'
 QUERY_URL = 'http://hermes.panbox.co.mz/pesquisa.php'
 LOGIN_URL = 'http://hermes.panbox.co.mz/php/scripts/auth.php'
@@ -77,7 +81,7 @@ def load_by_id(sess, id):
 
 
 def cache_path(id):
-    path = os.path.join('data', str(id % 100).zfill(2), '%s.json' % id)
+    path = os.path.join(PATH, str(id % 100).zfill(2), '%s.json' % id)
     dir = os.path.dirname(path)
     try:
         os.makedirs(dir)

@@ -1,11 +1,12 @@
 # coding: utf-8
 import os
-import shutil
 import requests
-import tempfile
+from normality import slugify
 from urllib import urlretrieve
 from urlparse import urljoin
 from lxml import html
+
+from common import DATA_PATH
 
 AUTH = (os.environ.get('DOCCLOUD_USER'),
         os.environ.get('DOCCLOUD_PASS'))
@@ -55,7 +56,6 @@ def content_links(url):
 def get_files(data):
     url = data.get('issue_url')
     for href, a in content_links(url):
-        print [href]
         d = data.copy()
         d['file'] = a.text_content()
         if href.endswith('/view'):
@@ -63,14 +63,17 @@ def get_files(data):
         if not href.endswith('.pdf'):
             continue
         d['url'] = href
-        dir = tempfile.mkdtemp()
-        file_name = os.path.join(dir, d['file'])
-        file_name = file_name.encode('ascii', 'ignore')
-        print "FILE", file_name, d['file']
-        continue
-        urlretrieve(d['url'], file_name)
+        file_name = slugify(d['file'], sep='_')
+        path = slugify(d['issue'], sep='_')
+        file_name = os.path.join(DATA_PATH, 'boletin', path, file_name)
+        try:
+            os.makedirs(os.path.dirname(file_name))
+        except:
+            pass
+        print [file_name]
+        if not os.path.isfile(file_name):
+            urlretrieve(d['url'], file_name)
         documentcloudify(file_name, d)
-        shutil.rmtree(dir)
 
 
 def get_issues(data):
@@ -85,7 +88,7 @@ def get_issues(data):
 def get_years():
     url = 'http://www.portaldogoverno.gov.mz/Legisla/boletinRep/'
     for href, a in content_links(url):
-        print [a.text_content()]
+        # print [a.text_content()]
         data = {
             'year': a.text_content(),
             'year_url': a.get('href')
