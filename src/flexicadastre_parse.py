@@ -33,6 +33,8 @@ def convrow(data):
             val = dt.date().isoformat()
         if name.startswith('GUID'):
             continue
+        if name == 'AREA':
+            val = min(val, (2 ** 31) - 1)
         if name == 'ID':
             name = 'FC_ID'
         row[name] = val
