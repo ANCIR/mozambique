@@ -45,7 +45,7 @@ def parse_file(path):
     with open(path, 'rb') as fh:
         ctx = json.load(fh)
 
-    if ctx['source_name'] not in ['NA', 'MZ']:
+    if ctx['source_name'] not in ['MZ']:
         return
 
     layers = ctx.pop('layers')
