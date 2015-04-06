@@ -65,6 +65,15 @@ SELECT COUNT(DISTINCT fx.parties_norm)
         fx.parties_norm IS NOT NULL;
 
 
+SELECT fx.parties_norm, COUNT(fx.id)
+    FROM hermes_company AS co, mz_flexicadastre fx
+    WHERE
+        co.nome_da_entidade_norm IS NOT NULL
+        AND fx.parties_norm IS NOT NULL
+        AND LEVENSHTEIN(co.nome_da_entidade_norm, fx.parties_norm) < 3
+    GROUP BY fx.parties_norm
+    ORDER BY COUNT(fx.id) DESC;
+
 
 
 

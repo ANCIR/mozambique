@@ -49,7 +49,8 @@ data/pep/cip3.csv:
 pep: env/bin/python data/pep/cip3.csv
 	$(PY) src/pep_parse.py
 
-cleanup: sqlsetup
+clean-data: sqlsetup
 	$(PSQL) src/flexicadastre_cleanup.sql
 	$(PSQL) src/hermes_cleanup.sql
 	$(PSQL) src/pep_cleanup.sql
+	$(PSQL) src/finalize.sql

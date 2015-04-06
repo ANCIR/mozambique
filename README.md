@@ -53,6 +53,10 @@ This should leave you with a freshly stocked SQL database for your analytical pl
 
 ## Exploring the data
 
+The following is a guided tour / documentation of the data. Queries are shown as raw SQL, but can be largely ignored in favour of the linked result sets by those not familiar with the language.
+
+### Linking concessions and company data
+
 We'll start exploring the data from the concessions. The table ``mz_flexicadastre`` combines all layers from the source data, which we can summarize like this: 
 
 ```sql
@@ -82,13 +86,13 @@ SELECT NORMTXT(nome_da_entidade), COUNT(*) FROM hermes_company
 ```
 **[result](http://databin.pudo.org/t/d08f83)**
 
-It seems that a single entity name in the company register will regularly occur multiple times. Concerned about the data quality of the Hermes Pandora dataset.
+It seems that a single entity name in the company register will often occur multiple times. An explanation could be that Hermes' data entry failed to reconcile multiple notices regarding a single company in the gazette. Concerned about the data quality of the Hermes Pandora dataset.
 
 Next, let's try and join between both datasets, i.e. see how many of the concession holder entries match company records. To do this, we'll generate normalized versions of the company names on both the company registry and the concessions data.
 
 ```sql
 SELECT fx.parties_norm, COUNT(fx.id)
-    FROM hermes_company AS co, mz_flexicadastre fx
+    FROM hermes_company AS co, mz_flexicadastre AS fx
     WHERE
         co.nome_da_entidade_norm IS NOT NULL
         AND fx.parties_norm IS NOT NULL
@@ -98,14 +102,41 @@ SELECT fx.parties_norm, COUNT(fx.id)
 ```
 **[result](http://databin.pudo.org/t/d1f3b6)**
 
-This is much better than assumed, the expectation was to find barely any overlap. Out of 2430 distinct company names in the concessions data, 160 are an immediate match.
+This is much better than assumed, the expectation was to find barely any overlap. Out of 2430 distinct company names in the concessions data, 160 are an immediate match. We can also loosen the join criterion using PostgreSQL's ``LEVENSHTEIN`` function which returns the edit distance between two strings:
 
+```sql
+SELECT fx.parties_norm, COUNT(fx.id)
+    FROM hermes_company AS co, mz_flexicadastre AS fx
+    WHERE
+        co.nome_da_entidade_norm IS NOT NULL
+        AND fx.parties_norm IS NOT NULL
+        AND LEVENSHTEIN(co.nome_da_entidade_norm, fx.parties_norm) < 3
+    GROUP BY fx.parties_norm
+    ORDER BY COUNT(fx.id) DESC;
+```
+
+Unfortunately, this query takes pretty much forever. An alternative approach might be to generate a lookup table with ``LEVENSHTEIN`` distances.
+
+### Linking PEPs and company data
+
+To link politically exposed persons (PEP) data with the Hermes company registry, we need to first explore the ``hermes_relation`` table, which contains information on all relations indicated in the Hermes database. It shows us that the relations table has several types of data:
+
+```sql
+SELECT DISTINCT rel_label, rel_key FROM hermes_relation;
+```
+ rel_label             | rel_key                  | Meaning
+ --------------------- | ------------------------ | -------------
+ Sócios instituições : | ``socios_instituicoes``  | related institutions
+ Sócios pessoas :      | ``socios_pessoas``       | related people
+ Lugar da sede :       | ``lugar_da_sede``        | headquarters
+ 
+
+ 
 
 ## Glossary
 
 * ``MIREM`` - Mozambique, Ministry of Mineral Resources (MIREM)
-
-See also: [Google Translate PT -> EN](https://translate.google.com/#pt/en/todas%20licencas%20extinto)
+* See also: [Google Translate PT -> EN](https://translate.google.com/#pt/en/todas%20licencas%20extinto)
 
 ## Credit
 
