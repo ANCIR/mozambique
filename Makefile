@@ -5,7 +5,7 @@ PSQL=psql $(DATABASE_URI)
 FREEZE=datafreeze --db $(DATABASE_URI)
 
 CORPXT=tar xvfz data/corpwatch/csv.tar.gz -C data/corpwatch --strip-components=1
-CORPCSV=csvsql -t -S --db $(DATABASE_URI) --insert
+CORPCSV=env/bin/csvsql -t -S --db $(DATABASE_URI) --insert
 
 
 all: flexi hermes boletin pep
@@ -20,6 +20,9 @@ clean:
 	rm -rf flexicadastre/raw/*
 	rm -f data/pep/cip3.csv
 	rm -f data/corpwatch/csv.tar.gz
+	rm -f data/corpwatch/companies.csv
+	rm -f data/corpwatch/company_relations.csv
+	rm -f data/corpwatch/company_locations.csv
 
 env/bin/python:
 	virtualenv env
