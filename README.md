@@ -280,6 +280,38 @@ SELECT MAX(hr.target_name) AS name,
 
 The top guy, José Manuel Caldeira, appears to be a corporate lawyer and probably acts as a secretary for the 106 companies he is tied to, but most of the other names on this list don't show up much on Google. I'm relatively sure that in the hands of an experienced Mozambican journalist, this list would yield some interesting leads.
 
+Given that we now have improved normalization of company and person names, it also makes sense to return to the mining concessions. First, let's look at the biggest players there again: 
+
+```sql
+SELECT parties_norm, COUNT(*) FROM mz_flexicadastre
+    WHERE parties_norm IS NOT NULL
+    GROUP BY parties_norm
+    ORDER BY COUNT(*) DESC;
+```
+**[results](http://databin.pudo.org/t/86779c)**
+
+Interestingly, not to many big international names show up here, although the top ten do include two players from China - not a surprise, we're talking about African resources.
+
+We can also link all the way across to the associated persons to make a simplified table of the big shots in Mozambican mining:
+
+```sql
+SELECT MAX(hr.target_name) AS name,
+        COUNT(DISTINCT hc.nome_da_entidade_norm) AS companies,
+        COUNT(DISTINCT fx.id) AS concessions
+    FROM hermes_company AS hc,
+        hermes_relation AS hr,
+        mz_flexicadastre AS fx
+    WHERE fx.parties_norm = hc.nome_da_entidade_norm
+        AND LENGTH(hr.target_name_norm) > 1
+        AND hc.id_do_registo = hr.id_do_registo
+        AND hr.rel_key = 'socios_pessoas'
+    GROUP BY hr.target_name_norm
+    ORDER BY COUNT(DISTINCT fx.id) DESC;
+```
+**[results](http://databin.pudo.org/t/ebc8f9)**
+
+The result from this query is very informative in two ways: it tells us that we have a lot of work left with regards to data de-duplication, but it also shows that just looking at companies connected to concessions is not enough: there's clearly a lot of connectivity between different concession holders, they share large parts of their boards.
+
 ## Glossary
 
 * ``MIREM`` - Mozambique, Ministry of Mineral Resources (MIREM)

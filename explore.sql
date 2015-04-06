@@ -195,3 +195,24 @@ SELECT MAX(hr.target_name) AS name,
         AND hr.rel_key = 'socios_pessoas'
     GROUP BY hr.target_name_norm
     ORDER BY COUNT(DISTINCT hc.nome_da_entidade_norm) DESC;
+
+
+
+SELECT parties_norm, COUNT(*) FROM mz_flexicadastre
+    WHERE parties_norm IS NOT NULL
+    GROUP BY parties_norm
+    ORDER BY COUNT(*) DESC;
+
+
+SELECT MAX(hr.target_name) AS name,
+        COUNT(DISTINCT hc.nome_da_entidade_norm) AS companies,
+        COUNT(DISTINCT fx.id) AS concessions
+    FROM hermes_company AS hc,
+        hermes_relation AS hr,
+        mz_flexicadastre AS fx
+    WHERE fx.parties_norm = hc.nome_da_entidade_norm
+        AND LENGTH(hr.target_name_norm) > 1
+        AND hc.id_do_registo = hr.id_do_registo
+        AND hr.rel_key = 'socios_pessoas'
+    GROUP BY hr.target_name_norm
+    ORDER BY COUNT(DISTINCT fx.id) DESC;
