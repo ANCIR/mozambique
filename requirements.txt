@@ -6,3 +6,4 @@ dataset
 lxml
 psycopg2
 csvkit
+unicodecsv

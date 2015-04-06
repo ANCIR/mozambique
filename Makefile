@@ -1,29 +1,39 @@
+PY=env/bin/python
+PIP=env/bin/python
+IN2CSV=env/bin/in2csv
 
-all: flexi hermes boletin
+all: flexi hermes boletin pep
 
 clean:
 	rm -rf env
 	rm -rf flexicadastre/raw/*
+	rm data/pep/cip3.csv
 
 env/bin/python:
 	virtualenv env
-	env/bin/pip install -r requirements.txt
+	$(PIP) install -r requirements.txt
 
 flexiscrape: env/bin/python
-	env/bin/python src/flexicadastre_scrape.py
+	$(PY) src/flexicadastre_scrape.py
 
 flexiparse: env/bin/python
-	env/bin/python src/flexicadastre_parse.py
+	$(PY) src/flexicadastre_parse.py
 
 flexi: flexiscrape flexiparse
 
 boletin:
-	env/bin/python src/boletin_scrape.py
+	$(PY) src/boletin_scrape.py
 
 hermesscrape: env/bin/python
-	env/bin/python src/hermes_scrape.py
+	$(PY) src/hermes_scrape.py
 
 hermesparse: env/bin/python
-	env/bin/python src/hermes_parse.py
+	$(PY) src/hermes_parse.py
 
 hermes: hermesscrape hermesparse
+
+data/pep/cip3.csv:
+	$(IN2CSV) --format xls -u 2 data/pep/cip3.xlsm >data/pep/cip3.csv
+
+pep: data/pep/cip3.csv
+	$(PY) src/pep_parse.py

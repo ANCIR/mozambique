@@ -59,3 +59,4 @@ target/
 data/boletin/*
 data/hermes/*
 data/flexicadastre/*
+data/pep/*.csv
