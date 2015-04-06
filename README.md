@@ -280,7 +280,7 @@ SELECT MAX(hr.target_name) AS name,
 
 The top guy, José Manuel Caldeira, appears to be a corporate lawyer and probably acts as a secretary for the 106 companies he is tied to, but most of the other names on this list don't show up much on Google. I'm relatively sure that in the hands of an experienced Mozambican journalist, this list would yield some interesting leads.
 
-Given that we now have improved normalization of company and person names, it also makes sense to return to the mining concessions. First, let's look at the biggest players there again: 
+Given that we now have improved normalization of company and person names, it also makes sense to return to the mining concessions. First, let's look at the companies with the most concessions there again: 
 
 ```sql
 SELECT parties_norm, COUNT(*) FROM mz_flexicadastre
@@ -290,7 +290,7 @@ SELECT parties_norm, COUNT(*) FROM mz_flexicadastre
 ```
 **[results](http://databin.pudo.org/t/86779c)**
 
-Interestingly, not to many big international names show up here, although the top ten do include two players from China - not a surprise, we're talking about African resources.
+Interestingly, not to many big international names show up here, although the top ten do include two companies that appear to be from China - not a surprise, we're talking about African resources.
 
 We can also link all the way across to the associated persons to make a simplified table of the big shots in Mozambican mining:
 
