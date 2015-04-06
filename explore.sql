@@ -75,5 +75,13 @@ SELECT fx.parties_norm, COUNT(fx.id)
     ORDER BY COUNT(fx.id) DESC;
 
 
-
-
+SELECT hr.target_name_norm, COUNT(*)
+    FROM hermes_relation AS hr, pep pe
+    WHERE
+        hr.target_name_norm IS NOT NULL
+        AND LENGTH(hr.target_name_norm) > 2
+        AND hr.rel_key = 'socios_pessoas'
+        AND pe.full_name_norm IS NOT NULL
+        AND hr.target_name_norm = pe.full_name_norm
+    GROUP BY hr.target_name_norm
+    ORDER BY COUNT(*) DESC;

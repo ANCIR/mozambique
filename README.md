@@ -130,8 +130,26 @@ SELECT DISTINCT rel_label, rel_key FROM hermes_relation;
  Sócios pessoas :      | ``socios_pessoas``       | related people
  Lugar da sede :       | ``lugar_da_sede``        | headquarters
  
+Next, we can try and make a connection between the PEP table and the 'associated people'.
 
- 
+```sql
+SELECT hr.target_name_norm, COUNT(*)
+    FROM hermes_relation AS hr, pep pe
+    WHERE
+        hr.target_name_norm IS NOT NULL
+        AND LENGTH(hr.target_name_norm) > 2
+        AND hr.rel_key = 'socios_pessoas'
+        AND pe.full_name_norm IS NOT NULL
+        AND hr.target_name_norm = pe.full_name_norm
+    GROUP BY hr.target_name_norm
+    ORDER BY COUNT(*) DESC;
+```
+**[results](http://databin.pudo.org/t/13d779)**
+
+This is the first result in our data expedition which has some journalistic value. It seems like Central Committee member Marina Pachinuapa and Governor Paulo Auade are good businesspeople, with a dozen companies in their name, each.
+
+A very important caveat is that this is based purely on name matching, so it would be necessary to validate (e.g. via the Boletin) that these people actually are the same.
+
 
 ## Glossary
 
