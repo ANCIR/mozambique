@@ -4,6 +4,8 @@ IN2CSV=env/bin/in2csv
 
 all: flexi hermes boletin pep
 
+install: env/bin/python
+
 clean:
 	rm -rf env
 	rm -rf flexicadastre/raw/*
@@ -35,5 +37,5 @@ hermes: hermesscrape hermesparse
 data/pep/cip3.csv:
 	$(IN2CSV) --format xls -u 2 data/pep/cip3.xlsm >data/pep/cip3.csv
 
-pep: data/pep/cip3.csv
+pep: env/bin/python data/pep/cip3.csv
 	$(PY) src/pep_parse.py
