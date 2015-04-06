@@ -69,19 +69,19 @@ SELECT layer_name, COUNT(*) FROM mz_flexicadastre
 Next, we can have a look at the most interesting field in this table, ``parties`` - the set of all company and person names which hold mineral rights. Let's see who is top of the list.
 
 ```sql
-SELECT NORMTXT(parties), COUNT(*) FROM mz_flexicadastre
+SELECT f_normtxt(parties), COUNT(*) FROM mz_flexicadastre
     WHERE parties IS NOT NULL
-    GROUP BY NORMTXT(parties)
+    GROUP BY f_normtxt(parties)
     ORDER BY COUNT(*) DESC;
 ```
-**[result](http://databin.pudo.org/t/c859c4)** (NOTE: ``NORMTXT`` is a custom SQL function, defined in ``src/setup.sql``)
+**[result](http://databin.pudo.org/t/c859c4)** (NOTE: ``f_normtxt`` is a custom SQL function, defined in ``src/setup.sql``)
 
 We can run the same sort of query on the scraped data from the company register. We would expect that there is only a single entry for each entity name, but that is not true:
 
 ```sql
-SELECT NORMTXT(nome_da_entidade), COUNT(*) FROM hermes_company
+SELECT f_normtxt(nome_da_entidade), COUNT(*) FROM hermes_company
     WHERE nome_da_entidade IS NOT NULL
-    GROUP BY NORMTXT(nome_da_entidade)
+    GROUP BY f_normtxt(nome_da_entidade)
     ORDER BY COUNT(*) DESC;
 ```
 **[result](http://databin.pudo.org/t/d08f83)**
@@ -244,7 +244,7 @@ $$ LANGUAGE plpgsql;
 
 While this is monstrous, all it really does is: remove all percentages in brackets (e.g. ``(100.0%)`` on concessions), remove references to Mozambique in brackets, replace mentions of ``lda`` with ``limitada``, replace all non-text characters with whitespace, and finally, collapse all consecutive whitespace.
 
-This increases the number of potential concession matches from 5 to 33, the number of PEP-help companies from 111 to 250.
+This increases the number of potential concession matches from 5 to 33, the number of PEP-held companies from 111 to 250.
 
 ## Glossary
 
