@@ -8,9 +8,9 @@ CORPXT=tar xvfz data/corpwatch/csv.tar.gz -C data/corpwatch --strip-components=1
 CORPCSV=env/bin/csvsql -t -S --db $(DATABASE_URI) --insert
 
 
-all: flexi hermes boletin pep
+all: install flexi hermes boletin pep corpwatch reports
 
-install: env/bin/python setup
+install: env/bin/python
 
 sqlsetup:
 	$(PSQL) src/setup.sql
