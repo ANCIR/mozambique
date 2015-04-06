@@ -11,7 +11,8 @@ SITES = {
     'MZ': 'http://portals.flexicadastre.com/mozambique/en/',
     'KE': 'http://map.miningcadastre.go.ke/map',
     'RW': 'http://portals.flexicadastre.com/rwanda/',
-    #'TZ': 'http://portal.mem.go.tz/map/'
+    'TZ': 'http://portal.mem.go.tz/map/',
+    'CD': 'http://portals.flexicadastre.com/drc/en/'
 }
 
 QUERY = {
