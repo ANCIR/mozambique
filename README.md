@@ -53,24 +53,36 @@ This should leave you with a freshly stocked SQL database for your analytical pl
 
 ## Exploring the data
 
-We'll start exploring the data from the FlexiCadastre concessions. The table ``mz_flexicadastre`` combines all layers from the source data, which we can summarize like this: 
+We'll start exploring the data from the concessions. The table ``mz_flexicadastre`` combines all layers from the source data, which we can summarize like this: 
 
 ```sql
 SELECT layer_name, COUNT(*) FROM mz_flexicadastre
-    GROUP BY layer_name ORDER BY COUNT(*) DESC;
+    GROUP BY layer_name
+    ORDER BY COUNT(*) DESC;
 ```
-[[result](http://databin.pudo.org/t/d1be77)]
+**[result](http://databin.pudo.org/t/d1be77)**
 
-Next, we can have a look at the most interesting field in this table, ``parties`` - the set of all company and person names which hold mineral rights. Let's see who is top of the list (NOTE: ``NORMTXT`` is a custom SQL function, defined in ``src/setup.sql``).
+Next, we can have a look at the most interesting field in this table, ``parties`` - the set of all company and person names which hold mineral rights. Let's see who is top of the list.
 
 ```sql
 SELECT NORMTXT(parties), COUNT(*) FROM mz_flexicadastre
     WHERE parties IS NOT NULL
-    GROUP BY NORMTXT(parties) ORDER BY COUNT(*) DESC;
+    GROUP BY NORMTXT(parties)
+    ORDER BY COUNT(*) DESC;
 ```
-[[result](http://databin.pudo.org/t/c859c4)]
+**[result](http://databin.pudo.org/t/c859c4)** (NOTE: ``NORMTXT`` is a custom SQL function, defined in ``src/setup.sql``)
 
+We can run the same sort of query on the scraped data from the company register. We would expect that there is only a single entry for each entity name, but that is not true:
 
+```sql
+SELECT NORMTXT(nome_da_entidade), COUNT(*) FROM hermes_company
+    WHERE nome_da_entidade IS NOT NULL
+    GROUP BY NORMTXT(nome_da_entidade)
+    ORDER BY COUNT(*) DESC;
+```
+**[result](http://databin.pudo.org/t/d08f83)**
+
+It seems that a single entity name in the company register will regularly occur multiple times. Concerned about the data quality of the Hermes Pandora dataset.
 
 ## Glossary
 
