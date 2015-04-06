@@ -37,7 +37,9 @@ def convrow(data):
             val = min(val, (2 ** 31) - 1)
         if name == 'ID':
             name = 'FC_ID'
-        row[name] = val
+        if val is None or not len(unicode(val).strip()):
+            continue
+        row[slugify(name, sep='_')] = val
     return row
 
 
@@ -47,6 +49,10 @@ def parse_file(path):
 
     if ctx['source_name'] not in ['MZ']:
         return
+
+    all_name = slugify('%(source_name)s flexicadastre' % ctx, sep='_')
+    all_tbl = database[all_name]
+    all_tbl.delete()
 
     layers = ctx.pop('layers')
     for layer in layers:
@@ -67,6 +73,7 @@ def parse_file(path):
             attrs = convrow(feature.get('attributes'))
             attrs.update(lctx)
             tbl.insert(attrs)
+            all_tbl.insert(attrs)
 
 
 if __name__ == '__main__':

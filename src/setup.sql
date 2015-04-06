@@ -1,0 +1,8 @@
+CREATE EXTENSION IF NOT EXISTS fuzzystrmatch;
+CREATE EXTENSION IF NOT EXISTS unaccent; 
+
+CREATE OR REPLACE FUNCTION NORMTXT(t varchar) RETURNS varchar AS $$
+        BEGIN
+                RETURN UNACCENT(TRIM(LOWER(t)));
+        END;
+$$ LANGUAGE plpgsql;

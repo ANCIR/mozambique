@@ -1,10 +1,14 @@
 PY=env/bin/python
 PIP=env/bin/python
 IN2CSV=env/bin/in2csv
+PSQL=psql $(DATABASE_URI) -f
 
 all: flexi hermes boletin pep
 
-install: env/bin/python
+install: env/bin/python setup
+
+setup:
+	$(PSQL) src/setup.sql
 
 clean:
 	rm -rf env
@@ -20,6 +24,9 @@ flexiscrape: env/bin/python
 
 flexiparse: env/bin/python
 	$(PY) src/flexicadastre_parse.py
+
+flexidrop:
+	$(PSQL) src/flexicadastre_drop.sql
 
 flexi: flexiscrape flexiparse
 

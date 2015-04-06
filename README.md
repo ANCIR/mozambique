@@ -51,6 +51,33 @@ $ make boletin
 
 This should leave you with a freshly stocked SQL database for your analytical pleasure.
 
+## Exploring the data
+
+We'll start exploring the data from the FlexiCadastre concessions. The table ``mz_flexicadastre`` combines all layers from the source data, which we can summarize like this: 
+
+```sql
+SELECT layer_name, COUNT(*) FROM mz_flexicadastre
+    GROUP BY layer_name ORDER BY COUNT(*) DESC;
+```
+[[result](http://databin.pudo.org/t/d1be77)]
+
+Next, we can have a look at the most interesting field in this table, ``parties`` - the set of all company and person names which hold mineral rights. Let's see who is top of the list (NOTE: ``NORMTXT`` is a custom SQL function, defined in ``src/setup.sql``).
+
+```sql
+SELECT NORMTXT(parties), COUNT(*) FROM mz_flexicadastre
+    WHERE parties IS NOT NULL
+    GROUP BY NORMTXT(parties) ORDER BY COUNT(*) DESC;
+```
+[[result](http://databin.pudo.org/t/c859c4)]
+
+
+
+## Glossary
+
+* ``MIREM`` - Mozambique, Ministry of Mineral Resources (MIREM)
+
+See also: [Google Translate PT -> EN](https://translate.google.com/#pt/en/todas%20licencas%20extinto)
+
 ## Credit
 
 The project is lead by Don Hubert with [Resources for Development Consulting](http://www.res4dev.com/) in collaboration with [CIP](http://www.cip.org.mz/). Technical support is provided by [ANCIR](http://investigativecenters.org/) in collaboration with [ICFJ](http://icfj.org/).
