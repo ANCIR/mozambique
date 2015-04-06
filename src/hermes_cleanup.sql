@@ -11,5 +11,5 @@ UPDATE hermes_relation
     SET target_name_norm = f_mz_person(target_name)
     WHERE rel_key = 'socios_pessoas';
 UPDATE hermes_relation
-    SET target_name_norm = normtxt(target_name)
+    SET target_name_norm = f_normtxt(target_name)
     WHERE rel_key = 'lugar_da_sede';

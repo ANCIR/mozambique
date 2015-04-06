@@ -213,7 +213,38 @@ Given our preliminary experiments in joining concessions to companies, and compa
              AND LEVENSHTEIN(hr.target_name_norm, pe.full_name_norm) < 3;
 ```
 
-Holy moly! There's a few candidates. The full CSV output is available at [reports/pep_concessions.csv](reports/pep_concessions.csv).
+There's a few candidates. The full CSV output is available at [reports/pep_concessions.csv](reports/pep_concessions.csv).
+
+To expand the set of matches to be less precise, we're re-writing the normalization functions to account for common variations in the way that company and people names are written: 
+
+```sql
+CREATE OR REPLACE FUNCTION f_mz_company(t varchar) RETURNS varchar AS $$
+  BEGIN
+    RETURN TRIM(
+      regexp_replace(
+        regexp_replace(
+          regexp_replace(
+            regexp_replace(
+              regexp_replace(
+                f_normtxt(t),
+                '\([0-9,\.]*%?\)', '', 'g'
+              ),
+              '\( ?(moz|mozambique|moc).?\)', '', 'g'
+            ),
+            '[, ]+(lda|ltd)\.?', ' limitada', 'g'
+          ),
+          '\W+', ' ', 'g'
+        ),
+        '\s+', ' ', 'g'
+      )
+    );
+  END;
+$$ LANGUAGE plpgsql;
+```
+
+While this is monstrous, all it really does is: remove all percentages in brackets (e.g. ``(100.0%)`` on concessions), remove references to Mozambique in brackets, replace mentions of ``lda`` with ``limitada``, replace all non-text characters with whitespace, and finally, collapse all consecutive whitespace.
+
+This increases the number of potential concession matches from 5 to 33, the number of PEP-help companies from 111 to 250.
 
 ## Glossary
 

@@ -22,35 +22,63 @@ $func$;
 
 
 CREATE OR REPLACE FUNCTION f_normtxt(t varchar) RETURNS varchar AS $$
-        BEGIN
-                RETURN LOWER(TRIM(UNACCENT(t)));
-        END;
+  BEGIN
+    RETURN LOWER(TRIM(UNACCENT(t)));
+  END;
 $$ LANGUAGE plpgsql;
 
 
 CREATE OR REPLACE FUNCTION f_mz_company(t varchar) RETURNS varchar AS $$
-        BEGIN
-                RETURN f_normtxt(t);
-        END;
+  BEGIN
+    RETURN TRIM(
+      regexp_replace(
+        regexp_replace(
+          regexp_replace(
+            regexp_replace(
+              regexp_replace(
+                f_normtxt(t),
+                '\([0-9,\.]*%?\)', '', 'g'
+              ),
+              '\( ?(moz|mozambique|moc).?\)', '', 'g'
+            ),
+            '[, ]+(lda|ltd)\.?', ' limitada', 'g'
+          ),
+          '\W+', ' ', 'g'
+        ),
+        '\s+', ' ', 'g'
+      )
+    );
+  END;
 $$ LANGUAGE plpgsql;
 
 
 CREATE OR REPLACE FUNCTION f_mz_person(t varchar) RETURNS varchar AS $$
-        BEGIN
-                RETURN f_normtxt(t);
-        END;
+  BEGIN
+    RETURN TRIM(
+      regexp_replace(
+        regexp_replace(
+          regexp_replace(
+            f_normtxt(t),
+            '\([0-9,\.]*%?\)', '', 'g'
+          ),
+          '\W+', ' ', 'g'
+        ),
+        '\s+', ' ', 'g'
+      )
+    );
+  END;
 $$ LANGUAGE plpgsql;
 
 
-CREATE TABLE IF NOT EXISTS name_distances (
-    left_name VARCHAR NOT NULL,
-    right_name VARCHAR NOT NULL,
-    edit_dist INTEGER
-);
+-- CREATE TABLE IF NOT EXISTS name_distances (
+--     left_name VARCHAR NOT NULL,
+--     right_name VARCHAR NOT NULL,
+--     edit_dist INTEGER
+-- );
 
-DROP INDEX IF EXISTS left_name_distances;
-DROP INDEX IF EXISTS right_name_distances;
-DROP INDEX IF EXISTS all_name_distances;
-CREATE INDEX left_name_distances ON name_distances (left_name);
-CREATE INDEX right_name_distances ON name_distances (right_name);
-CREATE INDEX all_name_distances ON name_distances (right_name, left_name, edit_dist);
+-- DROP INDEX IF EXISTS left_name_distances;
+-- DROP INDEX IF EXISTS right_name_distances;
+-- DROP INDEX IF EXISTS all_name_distances;
+-- CREATE INDEX left_name_distances ON name_distances (left_name);
+-- CREATE INDEX right_name_distances ON name_distances (right_name);
+-- CREATE INDEX all_name_distances ON name_distances (right_name, left_name, edit_dist);
