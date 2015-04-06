@@ -158,3 +158,40 @@ SELECT fx.layer_name AS conc_layer_name,
        AND hr.rel_key = 'socios_pessoas'
        AND pe.full_name_norm IS NOT NULL
        AND LEVENSHTEIN(hr.target_name_norm, pe.full_name_norm) < 3;
+
+
+
+
+SELECT MAX(hc.nome_da_entidade) AS company_name, COUNT(DISTINCT hr.target_name_norm)
+    FROM hermes_company AS hc, hermes_relation AS hr
+    WHERE hc.nome_da_entidade IS NOT NULL
+        AND hc.id_do_registo = hr.id_do_registo
+    GROUP BY hc.nome_da_entidade_norm
+    ORDER BY COUNT(DISTINCT hr.target_name_norm) DESC;
+
+SELECT hc.id_do_registo,
+        LEFT(MAX(hc.nome_da_entidade), 80) AS company_name,
+        MIN(data_da_escritura),
+        COUNT(DISTINCT hr.target_name_norm)
+    FROM hermes_company AS hc, hermes_relation AS hr
+    WHERE hc.nome_da_entidade IS NOT NULL
+        AND hc.id_do_registo = hr.id_do_registo
+        AND hr.rel_key = 'socios_pessoas'
+    GROUP BY hc.id_do_registo, hc.nome_da_entidade_norm
+    ORDER BY COUNT(DISTINCT hr.target_name_norm) DESC;
+
+
+SELECT COALESCE(data_de_assinatura, data_da_escritura), COUNT(*)
+    FROM hermes_company
+    GROUP BY COALESCE(data_de_assinatura, data_da_escritura)
+    ORDER BY COUNT(*) DESC;
+
+
+SELECT MAX(hr.target_name) AS name,
+        COUNT(DISTINCT hc.nome_da_entidade_norm) AS companies
+    FROM hermes_company AS hc, hermes_relation AS hr
+    WHERE LENGTH(hr.target_name_norm) > 1
+        AND hc.id_do_registo = hr.id_do_registo
+        AND hr.rel_key = 'socios_pessoas'
+    GROUP BY hr.target_name_norm
+    ORDER BY COUNT(DISTINCT hc.nome_da_entidade_norm) DESC;

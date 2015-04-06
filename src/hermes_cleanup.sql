@@ -13,3 +13,6 @@ UPDATE hermes_relation
 UPDATE hermes_relation
     SET target_name_norm = f_normtxt(target_name)
     WHERE rel_key = 'lugar_da_sede';
+
+
+UPDATE hermes_company SET data_da_escritura = NULL WHERE data_da_escritura LIKE '%de  de%';

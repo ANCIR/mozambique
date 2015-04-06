@@ -246,6 +246,40 @@ While this is monstrous, all it really does is: remove all percentages in bracke
 
 This increases the number of potential concession matches from 5 to 33, the number of PEP-held companies from 111 to 250.
 
+### Learning more about the company data
+
+Taking a step back, the company registry dataset is probably the most interesting one, because it provides a rich source of different linkages. Let's start by having a look at the companies with the most people associated with them:
+
+```sql
+SELECT hc.id_do_registo,
+        LEFT(MAX(hc.nome_da_entidade), 80) AS company_name,
+        MIN(data_da_escritura),
+        COUNT(DISTINCT hr.target_name_norm)
+    FROM hermes_company AS hc, hermes_relation AS hr
+    WHERE hc.nome_da_entidade IS NOT NULL
+        AND hc.id_do_registo = hr.id_do_registo
+        AND hr.rel_key = 'socios_pessoas'
+    GROUP BY hc.id_do_registo, hc.nome_da_entidade_norm
+    ORDER BY COUNT(DISTINCT hr.target_name_norm) DESC;
+```
+**[results](http://databin.pudo.org/t/a180e3)**
+
+A lot of the top-ranking companies seem to be trade associations and unions, which makes sense. Obviously, the reverse question is much more interesting: who are the people associated with the largest number of companies?
+
+```sql
+SELECT MAX(hr.target_name) AS name,
+        COUNT(DISTINCT hc.nome_da_entidade_norm) AS companies
+    FROM hermes_company AS hc, hermes_relation AS hr
+    WHERE LENGTH(hr.target_name_norm) > 1
+        AND hc.id_do_registo = hr.id_do_registo
+        AND hr.rel_key = 'socios_pessoas'
+    GROUP BY hr.target_name_norm
+    ORDER BY COUNT(DISTINCT hc.nome_da_entidade_norm) DESC;
+```
+**[results](http://databin.pudo.org/t/6886db)**
+
+The top guy, José Manuel Caldeira, appears to be a corporate lawyer and probably acts as a secretary for the 106 companies he is tied to, but most of the other names on this list don't show up much on Google. I'm relatively sure that in the hands of an experienced Mozambican journalist, this list would yield some interesting leads.
+
 ## Glossary
 
 * ``MIREM`` - Mozambique, Ministry of Mineral Resources (MIREM)
