@@ -2,6 +2,7 @@ PY=env/bin/python
 PIP=env/bin/python
 IN2CSV=env/bin/in2csv
 PSQL=psql $(DATABASE_URI) -f
+FREEZE=datafreeze --db $(DATABASE_URI)
 
 all: flexi hermes boletin pep
 
@@ -48,6 +49,9 @@ data/pep/cip3.csv:
 
 pep: env/bin/python data/pep/cip3.csv
 	$(PY) src/pep_parse.py
+
+pep-companies:
+	$(FREEZE) src/pep_companies.yaml
 
 clean-data: sqlsetup
 	$(PSQL) src/flexicadastre_cleanup.sql

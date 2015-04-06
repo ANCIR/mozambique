@@ -134,7 +134,7 @@ Next, we can try and make a connection between the PEP table and the 'associated
 
 ```sql
 SELECT hr.target_name_norm, COUNT(*)
-    FROM hermes_relation AS hr, pep pe
+    FROM hermes_relation AS hr, pep AS pe
     WHERE
         hr.target_name_norm IS NOT NULL
         AND LENGTH(hr.target_name_norm) > 2
@@ -146,10 +146,46 @@ SELECT hr.target_name_norm, COUNT(*)
 ```
 **[results](http://databin.pudo.org/t/13d779)**
 
-This is the first result in our data expedition which has some journalistic value. It seems like Central Committee member Marina Pachinuapa and Governor Paulo Auade are good businesspeople, with a dozen companies in their name, each.
+This is the first result in our data expedition which has some journalistic value. In total, it shows 40 matching names. It seems like Central Committee member Marina Pachinuapa and Governor Paulo Auade are good businesspeople, with a dozen companies in their name, each.
 
 A very important caveat is that this is based purely on name matching, so it would be necessary to validate (e.g. via the Boletin) that these people actually are the same.
 
+Again, we can make that search fuzzy based on ``LEVENSHTEIN`` distance, which expands the result set from 40 to a total of 111 potential matches.
+
+```sql
+SELECT hr.target_name_norm, COUNT(*)
+    FROM hermes_relation AS hr, pep AS pe
+    WHERE
+        hr.target_name_norm IS NOT NULL
+        AND LENGTH(hr.target_name_norm) > 2
+        AND hr.rel_key = 'socios_pessoas'
+        AND pe.full_name_norm IS NOT NULL
+        AND LEVENSHTEIN(hr.target_name_norm, pe.full_name_norm) < 3
+    GROUP BY hr.target_name_norm
+    ORDER BY COUNT(*) DESC;
+```
+**[results](http://databin.pudo.org/t/ded591)**
+
+Based on this linkage, we can generate a full report of possible matches for further inquiry. We'll use ``datafreeze`` to export a CSV file for this query:
+
+```sql
+SELECT hc.id_do_registo AS company_id,
+		hc.nome_da_entidade AS company_name,
+       hr.target_name AS company_person_name,
+       pe.given_name AS pep_given_name,
+       pe.family_name AS pep_family_name,
+       pe.menbership_role AS pep_menbership_role,
+       pe.organization_name AS pep_organization_name
+    FROM hermes_company AS hc, hermes_relation AS hr, pep AS pe
+    WHERE hc.id_do_registo = hr.id_do_registo
+       AND hr.target_name_norm IS NOT NULL
+       AND LENGTH(hr.target_name_norm) > 2
+       AND hr.rel_key = 'socios_pessoas'
+       AND pe.full_name_norm IS NOT NULL
+       AND LEVENSHTEIN(hr.target_name_norm, pe.full_name_norm) < 3;
+```
+
+The full CSV output is available at [reports/pep_companies.csv](reports/pep_companies.csv).
 
 ## Glossary
 
