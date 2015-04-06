@@ -53,8 +53,13 @@ pep: env/bin/python data/pep/cip3.csv
 pep-companies:
 	$(FREEZE) src/pep_companies.yaml
 
+pep-concessions:
+	$(FREEZE) src/pep_concessions.yaml
+
 clean-data: sqlsetup
 	$(PSQL) src/flexicadastre_cleanup.sql
 	$(PSQL) src/hermes_cleanup.sql
 	$(PSQL) src/pep_cleanup.sql
 	$(PSQL) src/finalize.sql
+
+reports: clean-data pep-companies pep-concessions

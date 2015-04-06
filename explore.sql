@@ -136,3 +136,25 @@ SELECT hc.id_do_registo AS company_id,
         AND hr.rel_key = 'socios_pessoas'
         AND pe.full_name_norm IS NOT NULL
         AND LEVENSHTEIN(hr.target_name_norm, pe.full_name_norm) < 3;
+
+
+
+SELECT fx.layer_name AS conc_layer_name,
+       fx.name AS conc_name,
+       fx.parties AS conc_parties,
+       hc.id_do_registo AS company_id,
+       hc.nome_da_entidade AS company_name,
+       hr.target_name AS company_person_name,
+       pe.given_name AS pep_given_name,
+       pe.family_name AS pep_family_name,
+       pe.menbership_role AS pep_menbership_role,
+       pe.organization_name AS pep_organization_name
+    FROM hermes_company AS hc, hermes_relation AS hr,
+         pep AS pe, mz_flexicadastre AS fx
+    WHERE hc.id_do_registo = hr.id_do_registo
+       AND fx.parties_norm = hc.nome_da_entidade_norm
+       AND hr.target_name_norm IS NOT NULL
+       AND LENGTH(hr.target_name_norm) > 2
+       AND hr.rel_key = 'socios_pessoas'
+       AND pe.full_name_norm IS NOT NULL
+       AND LEVENSHTEIN(hr.target_name_norm, pe.full_name_norm) < 3;

@@ -3,8 +3,8 @@ common:
   format: csv
 
 exports:
-
-  - query: >
+  - filename: "pep_companies.csv"
+    query: >
       SELECT hc.id_do_registo AS company_id,
           hc.nome_da_entidade AS company_name,
           hr.target_name AS company_person_name,
@@ -20,5 +20,3 @@ exports:
               AND hr.rel_key = 'socios_pessoas'
               AND pe.full_name_norm IS NOT NULL
               AND LEVENSHTEIN(hr.target_name_norm, pe.full_name_norm) < 3;
-
-    filename: "pep_companies.csv"
