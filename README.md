@@ -84,6 +84,23 @@ SELECT NORMTXT(nome_da_entidade), COUNT(*) FROM hermes_company
 
 It seems that a single entity name in the company register will regularly occur multiple times. Concerned about the data quality of the Hermes Pandora dataset.
 
+Next, let's try and join between both datasets, i.e. see how many of the concession holder entries match company records. To do this, we'll generate normalized versions of the company names on both the company registry and the concessions data.
+
+```sql
+SELECT fx.parties_norm, COUNT(fx.id)
+    FROM hermes_company AS co, mz_flexicadastre fx
+    WHERE
+        co.nome_da_entidade_norm IS NOT NULL
+        AND fx.parties_norm IS NOT NULL
+        AND co.nome_da_entidade_norm = fx.parties_norm
+    GROUP BY fx.parties_norm
+    ORDER BY COUNT(fx.id) DESC;
+```
+**[result](http://databin.pudo.org/t/d1f3b6)**
+
+This is much better than assumed, the expectation was to find barely any overlap. Out of 2430 distinct company names in the concessions data, 160 are an immediate match.
+
+
 ## Glossary
 
 * ``MIREM`` - Mozambique, Ministry of Mineral Resources (MIREM)

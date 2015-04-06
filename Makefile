@@ -7,7 +7,7 @@ all: flexi hermes boletin pep
 
 install: env/bin/python setup
 
-setup:
+sqlsetup:
 	$(PSQL) src/setup.sql
 
 clean:
@@ -22,8 +22,9 @@ env/bin/python:
 flexiscrape: env/bin/python
 	$(PY) src/flexicadastre_scrape.py
 
-flexiparse: env/bin/python
+flexiparse: env/bin/python sqlsetup
 	$(PY) src/flexicadastre_parse.py
+	$(PSQL) src/flexicadastre_cleanup.sql
 
 flexidrop:
 	$(PSQL) src/flexicadastre_drop.sql
@@ -36,8 +37,9 @@ boletin:
 hermesscrape: env/bin/python
 	$(PY) src/hermes_scrape.py
 
-hermesparse: env/bin/python
+hermesparse: env/bin/python sqlsetup
 	$(PY) src/hermes_parse.py
+	$(PSQL) src/hermes_cleanup.sql
 
 hermes: hermesscrape hermesparse
 
@@ -46,3 +48,8 @@ data/pep/cip3.csv:
 
 pep: env/bin/python data/pep/cip3.csv
 	$(PY) src/pep_parse.py
+
+cleanup: sqlsetup
+	$(PSQL) src/flexicadastre_cleanup.sql
+	$(PSQL) src/hermes_cleanup.sql
+	$(PSQL) src/pep_cleanup.sql

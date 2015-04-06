@@ -35,17 +35,36 @@ SELECT parties, COUNT(*)
     ORDER BY COUNT(*) DESC;
 -- http://databin.pudo.org/t/d2ddf1
 
-SELECT NORMTXT(parties), COUNT(*)
+SELECT f_normtxt(parties), COUNT(*)
     FROM mz_flexicadastre
     WHERE parties IS NOT NULL
-    GROUP BY NORMTXT(parties)
+    GROUP BY f_normtxt(parties)
     ORDER BY COUNT(*) DESC;
 -- no obvious difference
 
 
 
-SELECT NORMTXT(nome_da_entidade), COUNT(*)
+SELECT f_normtxt(nome_da_entidade), COUNT(*)
     FROM hermes_company
     WHERE nome_da_entidade IS NOT NULL
-    GROUP BY NORMTXT(nome_da_entidade)
+    GROUP BY f_normtxt(nome_da_entidade)
     ORDER BY COUNT(*) DESC;
+
+
+
+SELECT COUNT(DISTINCT fx.parties_norm)
+    FROM hermes_company AS co, mz_flexicadastre fx
+    WHERE
+        co.nome_da_entidade_norm IS NOT NULL
+        AND fx.parties_norm IS NOT NULL
+        AND co.nome_da_entidade_norm = fx.parties_norm;
+
+SELECT COUNT(DISTINCT fx.parties_norm)
+    FROM mz_flexicadastre fx
+    WHERE
+        fx.parties_norm IS NOT NULL;
+
+
+
+
+
