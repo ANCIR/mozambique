@@ -70,15 +70,25 @@ CREATE OR REPLACE FUNCTION f_mz_person(t varchar) RETURNS varchar AS $$
 $$ LANGUAGE plpgsql;
 
 
--- CREATE TABLE IF NOT EXISTS name_distances (
---     left_name VARCHAR NOT NULL,
---     right_name VARCHAR NOT NULL,
---     edit_dist INTEGER
--- );
 
--- DROP INDEX IF EXISTS left_name_distances;
--- DROP INDEX IF EXISTS right_name_distances;
--- DROP INDEX IF EXISTS all_name_distances;
--- CREATE INDEX left_name_distances ON name_distances (left_name);
--- CREATE INDEX right_name_distances ON name_distances (right_name);
--- CREATE INDEX all_name_distances ON name_distances (right_name, left_name, edit_dist);
+
+-- DROP TABLE IF EXISTS dedupe_company;
+-- DROP TABLE IF EXISTS dedupe_person;
+
+CREATE TABLE IF NOT EXISTS dedupe_company (
+    name_plain VARCHAR NOT NULL,
+    name_norm VARCHAR NOT NULL,
+    source VARCHAR NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS dedupe_person (
+    name_plain VARCHAR NOT NULL,
+    name_norm VARCHAR NOT NULL,
+    source VARCHAR NOT NULL
+);
+
+DROP INDEX IF EXISTS dep_name_plain;
+CREATE INDEX dep_name_plain ON dedupe_person (name_plain);
+
+DROP INDEX IF EXISTS ded_name_plain;
+CREATE INDEX ded_name_plain ON dedupe_company (name_plain);

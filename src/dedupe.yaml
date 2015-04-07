@@ -1,0 +1,12 @@
+common:
+  prefix: data/dedupe
+  format: csv
+
+exports:
+  - filename: "companies.csv"
+    query: >
+      SELECT * FROM dedupe_company WHERE LENGTH(name_norm) > 2;
+
+  - filename: "persons.csv"
+    query: >
+      SELECT * FROM dedupe_person WHERE LENGTH(name_norm) > 2;

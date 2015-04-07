@@ -2,10 +2,11 @@ PY=env/bin/python
 PIP=env/bin/python
 IN2CSV=env/bin/in2csv
 PSQL=psql $(DATABASE_URI)
-FREEZE=datafreeze --db $(DATABASE_URI)
+FREEZE=env/bin/datafreeze --db $(DATABASE_URI)
 
 CORPXT=tar xvfz data/corpwatch/csv.tar.gz -C data/corpwatch --strip-components=1
 CORPCSV=env/bin/csvsql -t -S --db $(DATABASE_URI) --insert
+DUPECSV=env/bin/csvsql --no-create --db $(DATABASE_URI) --insert
 
 
 all: install flexi hermes boletin pep corpwatch reports
@@ -84,6 +85,14 @@ pep-companies:
 
 pep-concessions:
 	$(FREEZE) src/pep_concessions.yaml
+
+dedupe:
+	$(PSQL) -c "DELETE FROM dedupe_company;"
+	$(DUPECSV) --tables dedupe_company data/dedupe/companies.csv
+	$(PSQL) -c "DELETE FROM dedupe_person;"
+	$(DUPECSV) --tables dedupe_person data/dedupe/persons.csv
+	$(PSQL) -f src/dedupe.sql
+	$(FREEZE) src/dedupe.yaml
 
 clean-data: sqlsetup
 	$(PSQL) -f src/flexicadastre_cleanup.sql
