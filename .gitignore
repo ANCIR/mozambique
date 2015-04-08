@@ -59,5 +59,6 @@ target/
 data/boletin/*
 data/hermes/*
 data/flexicadastre/*
+data/exports/*
 data/corpwatch/*
 data/pep/*.csv

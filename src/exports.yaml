@@ -1,0 +1,32 @@
+common:
+  prefix: data/exports
+  format: csv
+
+exports:
+  - filename: "hermes_joined.csv"
+    query: >
+      SELECT hc.*, hr.target_name, hr.rel_label, hr.rel_key
+      FROM hermes_company hc
+        LEFT OUTER JOIN hermes_relation hr
+          ON hr.id_do_registo = hc.id_do_registo
+      WHERE LENGTH(hr.target_name) > 2
+        AND LENGTH(hc.nome_da_entidade) > 2;
+
+  - filename: "hermes_company.csv"
+    query: >
+      SELECT hc.*
+        FROM hermes_company hc
+      WHERE LENGTH(hc.nome_da_entidade) > 2;
+
+  - filename: "hermes_relation.csv"
+    query: >
+      SELECT hr.*
+      FROM hermes_relation hr
+      WHERE LENGTH(hr.target_name) > 2;
+
+  - filename: "hermes_relation_person.csv"
+    query: >
+      SELECT hr.*
+      FROM hermes_relation hr
+      WHERE LENGTH(hr.target_name) > 2
+        AND rel_key = 'socios_pessoas';

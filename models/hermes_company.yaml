@@ -1,0 +1,9 @@
+publisher: "Hermes Database, Pandoras Box Lda"
+publisher_url: "http://hermes.panbox.co.mz/"
+source_url: "http://data.pudo.org/mz/exports/hermes_relation_person.csv"
+resource_mapping:
+    type: Company
+    label:
+        field: source_name
+    company_number:
+        field: id_do_registo

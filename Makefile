@@ -1,5 +1,5 @@
 PY=env/bin/python
-PIP=env/bin/python
+PIP=env/bin/pip
 IN2CSV=env/bin/in2csv
 PSQL=psql $(DATABASE_URI)
 FREEZE=env/bin/datafreeze --db $(DATABASE_URI)
@@ -14,7 +14,7 @@ all: install flexi hermes boletin pep corpwatch reports
 install: env/bin/python
 
 sqlsetup:
-	$(PSQL) src/setup.sql
+	$(PSQL) -f src/setup.sql
 
 clean:
 	rm -rf env
@@ -99,5 +99,8 @@ clean-data: sqlsetup
 	$(PSQL) -f src/hermes_cleanup.sql
 	$(PSQL) -f src/pep_cleanup.sql
 	$(PSQL) -f src/finalize.sql
+
+exports:
+	$(FREEZE) src/exports.yaml
 
 reports: clean-data pep-companies pep-concessions
