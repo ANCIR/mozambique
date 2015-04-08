@@ -216,3 +216,18 @@ SELECT MAX(hr.target_name) AS name,
         AND hr.rel_key = 'socios_pessoas'
     GROUP BY hr.target_name_norm
     ORDER BY COUNT(DISTINCT fx.id) DESC;
+
+
+
+SELECT co.nome_da_entidade AS hermes_name,
+        cc.cw_id AS id,
+        cc.company_name AS filed_name,
+        cp.company_name AS parent_company
+    FROM
+        hermes_company AS co, corpwatch_companies AS cc,
+        corpwatch_company_relations AS cr, corpwatch_companies AS cp
+    WHERE
+        LENGTH(co.nome_da_entidade_norm) > 2
+        AND co.nome_da_entidade_norm = cc.company_name_norm
+        AND cr.target_cw_id = cc.cw_id
+        AND cr.source_cw_id = cp.cw_id;

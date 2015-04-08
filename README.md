@@ -312,6 +312,30 @@ SELECT MAX(hr.target_name) AS name,
 
 The result from this query is very informative in two ways: it tells us that we have a lot of work left with regards to data de-duplication, but it also shows that just looking at companies connected to concessions is not enough: there's clearly a lot of connectivity between different concession holders, they share large parts of their boards.
 
+### Looking up companies in US SEC subsidiary filings
+
+The US SEC requires companies to file a so-called Exhibit 21 as part of their annual reports. Exhibits 21 list subsidiaries of a particular country across the world, and this data is made available in a scraped form as part of the [CorpWatch API](http://api.corpwatch.org/documentation/db_dump/).
+
+It can be downloaded and imported using the ``corpwatch`` make target, then we can do queries for companies in Hermes which are also listed as subsidiaries to US-listed companies:
+
+```sql
+SELECT co.nome_da_entidade AS hermes_name,
+        cc.cw_id AS id,
+        cc.company_name AS filed_name,
+        cp.company_name AS parent_company
+    FROM
+        hermes_company AS co, corpwatch_companies AS cc,
+        corpwatch_company_relations AS cr, corpwatch_companies AS cp
+    WHERE
+        LENGTH(co.nome_da_entidade_norm) > 2
+        AND co.nome_da_entidade_norm = cc.company_name_norm
+        AND cr.target_cw_id = cc.cw_id
+        AND cr.source_cw_id = cp.cw_id;
+```
+**[results](http://databin.pudo.org/t/f701d5)**
+
+There aren't many results, so that avenue of research doesn't seem very promising (it's worth checking back in on it once we've done a significant amount of data cleaning).
+
 ## Glossary
 
 * ``MIREM`` - Mozambique, Ministry of Mineral Resources (MIREM)
