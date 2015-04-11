@@ -30,3 +30,7 @@ exports:
       FROM hermes_relation hr
       WHERE LENGTH(hr.target_name) > 2
         AND rel_key = 'socios_pessoas';
+
+  - filename: "mz_flexicadastre.csv"
+    query: >
+      SELECT * FROM mz_flexicadastre;
