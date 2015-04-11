@@ -1,4 +1,8 @@
 
+body {
+    font-family: 'Open Sans', sans-serif;
+}
+
 #map {
     width: 400px;
     height: 600px;
@@ -10,7 +14,7 @@
 }
 
 #map .concession {
-    fill: rgba(128, 128, 128, 128);
+    fill: rgba(180, 180, 180, 128);
 }
 
 #map .place {

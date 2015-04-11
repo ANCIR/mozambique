@@ -1,5 +1,13 @@
 
-all: clean maps/moz.json maps/moz_c.json
+all: clean build
+
+build: maps/moz.json maps/moz_c.json js/deps.js data/persons.csv
+
+clean:
+	rm -f maps/moz.json
+	rm -f maps/moz_c.json
+	rm -f js/deps.js
+	rm -rf js/vendor
 
 maps/admin1.zip:
 	mkdir -p maps
@@ -48,7 +56,15 @@ maps/moz_c.json: maps/admin1.zip maps/places.zip
 		maps/subunits.json \
 		maps/places.json
 
-clean:
-	rm -f maps/moz.json
-	rm -f maps/moz_c.json
-	# rm -rf maps
+data/persons.csv:
+	mkdir -p data
+	cp ../data/exports/concession_persons.csv data/persons.csv
+
+js/deps.js:
+	bower install
+	uglifyjs --screw-ie8 -c -o js/deps.js \
+		js/vendor/underscore/underscore.js \
+		js/vendor/speakingurl/speakingurl.min.js \
+		js/vendor/d3/d3.js \
+		js/vendor/topojson/topojson.js
+

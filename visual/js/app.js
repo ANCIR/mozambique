@@ -42,10 +42,7 @@ d3.json('maps/moz_c.json', function(error, data) {
   svg.selectAll(".concession")
       .data(concessions.features)
     .enter().append("path")
-      .attr("class", function(d) {
-        var clazz = "concession " + d.id;
-        return clazz;
-      })
+      .attr("class", "concession")
       .attr("d", path);
 
   svg.append("path")
@@ -71,4 +68,26 @@ d3.json('maps/moz_c.json', function(error, data) {
         return d.properties.name; }
       );
 
+});
+
+
+d3.csv('data/persons.csv', function(error, data) {
+  companies = {};
+  data.forEach(function(row) {
+    companySlug = getSlug(row.company_name);
+    personSlug = getSlug(row.company_person_name);
+
+    if (_.isUndefined(companies[companySlug])) {
+      companies[companySlug] = {
+        'name': row.company_name,
+        'id': row.company_id,
+        'date': row.company_date,
+        'persons': []
+      };  
+    }
+    companies[companySlug]['persons'].push(personSlug);
+    
+  });
+  //console.log(companies.length);
+  console.log(_.keys(companies).length);
 });
