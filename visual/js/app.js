@@ -5,9 +5,10 @@ var width = 450,
     .attr("width", width)
     .attr("height", height);
 
-d3.json('maps/moz.json', function(error, data) {
+d3.json('maps/moz_c.json', function(error, data) {
   var subunits = topojson.feature(data, data.objects.subunits);
   var places = topojson.feature(data, data.objects.places);
+  var concessions = topojson.feature(data, data.objects.concessions);
 
   var projection = d3.geo.orthographic()
     .scale(2100)
@@ -37,6 +38,15 @@ d3.json('maps/moz.json', function(error, data) {
         var self = d3.select(this);
         self.attr('class', d.baseClass);  
       });
+
+  svg.selectAll(".concession")
+      .data(concessions.features)
+    .enter().append("path")
+      .attr("class", function(d) {
+        var clazz = "concession " + d.id;
+        return clazz;
+      })
+      .attr("d", path);
 
   svg.append("path")
     .datum(places)

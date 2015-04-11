@@ -1,5 +1,5 @@
 
-all: maps/moz.json
+all: clean maps/moz.json maps/moz_c.json
 
 maps/admin1.zip:
 	mkdir -p maps
@@ -34,6 +34,21 @@ maps/moz.json: maps/admin1.zip maps/places.zip
 		maps/subunits.json \
 		maps/places.json
 
+maps/moz_c.json: maps/admin1.zip maps/places.zip
+	topojson -o maps/concessions.json \
+		-- \
+		concessions=../data/flexicadastre/geo/MZ.json
+
+	topojson -o maps/moz_c.json \
+		--id-property adm1_code \
+		--properties name=NAME \
+		--bbox \
+		-- \
+		maps/concessions.json \
+		maps/subunits.json \
+		maps/places.json
+
 clean:
-	rm maps/moz.json
+	rm -f maps/moz.json
+	rm -f maps/moz_c.json
 	# rm -rf maps

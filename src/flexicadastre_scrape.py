@@ -20,7 +20,8 @@ QUERY = {
     'outFields': '*',
     'geometryType': 'esriGeometryPolygon',
     'spatialRel': 'esriSpatialRelIntersects',
-    'units': 'esriSRUnit_Meter',
+    #'units': 'esriSRUnit_Meter',
+    'outSR': 4326,  # wgs 84
     'resultRecordCount': 500,
     'resultOffset': 0,
     'returnGeometry': 'true',
@@ -48,6 +49,7 @@ def scrape_layers(sess, data, token, rest_url):
             q['resultOffset'] = q['resultRecordCount'] * i
             res = sess.get(query_url, params=q)
             page = res.json()
+            # print page
             if 'data' not in layer:
                 layer['data'] = page
             else:

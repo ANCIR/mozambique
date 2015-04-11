@@ -9,9 +9,12 @@
     stroke: #bbb;
 }
 
+#map .concession {
+    fill: rgba(128, 128, 128, 128);
+}
+
 #map .place {
     fill: #333;
-    
 }
 
 #map .place-label {
