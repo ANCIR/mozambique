@@ -1,0 +1,14 @@
+{
+  "name": "africanspending",
+  "version": "1.0",
+  "ignore": [
+    ".jshintrc",
+    "**/*.txt"
+  ],
+  "dependencies": {
+    "bootstrap": "~3.2.0",
+    "jquery": "~2.1.1",
+    "d3": "~3.4.12",
+    "topojson": "~1.6.18"
+  }
+}

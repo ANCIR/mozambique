@@ -1,0 +1,13 @@
+{
+  "name": "mozambique",
+  "version": "0.0.1",
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "depdendencies": {
+    "topojson": "*"
+  },
+  "preferGlobal": false,
+  "private": true
+}
