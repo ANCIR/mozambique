@@ -1,0 +1,21 @@
+
+#map {
+    width: 400px;
+    height: 600px;
+}
+
+#map .region {
+    fill: #ddd;
+    stroke: #bbb;
+}
+
+#map .place {
+    fill: #333;
+    
+}
+
+#map .place-label {
+    font-size: 0.9em;
+    font-weight: 300;
+    fill: #333;
+}

@@ -1,3 +1,4 @@
+
 all: maps/moz.json
 
 maps/admin1.zip:
@@ -27,10 +28,12 @@ maps/moz.json: maps/admin1.zip maps/places.zip
 
 	topojson -o maps/moz.json \
 		--id-property adm1_code \
-		--properties name=name \
+		--properties name=NAME \
+		--bbox \
 		-- \
 		maps/subunits.json \
 		maps/places.json
 
 clean:
-	rm -rf maps
+	rm maps/moz.json
+	# rm -rf maps
