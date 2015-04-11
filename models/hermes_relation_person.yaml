@@ -5,3 +5,4 @@ resource_mapping:
     type: Person
     label:
         field: target
+        key: true

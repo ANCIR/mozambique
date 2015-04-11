@@ -5,5 +5,7 @@ resource_mapping:
     type: Company
     label:
         field: source_name
+        key: true
     company_number:
         field: id_do_registo
+        key: true
