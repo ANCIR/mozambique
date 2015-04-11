@@ -61,7 +61,7 @@ def parse_file(path):
         lctx = ctx.copy()
         lctx['layer_name'] = layer['name']
         lctx['layer_id'] = layer['id']
-        del lctx['rest_url']
+        lctx.pop('rest_url', None)
 
         tbl_name = slugify('%(source_name)s %(layer_name)s' % lctx, sep='_')
         tbl = database[tbl_name]
