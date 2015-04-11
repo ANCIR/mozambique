@@ -37,15 +37,16 @@ exports:
 
   - filename: "concession_persons.csv"
     query: >
-      SELECT MAX(fx.layer_name) AS conc_layer_name,
-          MAX(fx.name) AS conc_name,
+      SELECT
+          --- MAX(fx.layer_name) AS conc_layer_name,
+          --- MAX(fx.name) AS conc_name,
           MAX(fx.parties) AS conc_parties,
           MIN(hc.id_do_registo) AS company_id,
           MIN(hc.data_da_escritura) AS company_date,
           MAX(hc.nome_da_entidade) AS company_name,
           hr.target_name AS company_person_name,
-          MAX(pe.given_name) AS pep_given_name,
-          MAX(pe.family_name) AS pep_family_name,
+          --- MAX(pe.given_name) AS pep_given_name,
+          --- MAX(pe.family_name) AS pep_family_name,
           MAX(pe.menbership_role) AS pep_menbership_role,
           MAX(pe.organization_name) AS pep_organization_name
         FROM mz_flexicadastre AS fx

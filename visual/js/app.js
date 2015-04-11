@@ -72,22 +72,55 @@ d3.json('maps/moz_c.json', function(error, data) {
 
 
 d3.csv('data/persons.csv', function(error, data) {
-  companies = {};
-  data.forEach(function(row) {
-    companySlug = getSlug(row.company_name);
-    personSlug = getSlug(row.company_person_name);
+  var companies = {},
+      persons = {};
+  for (var i in data) {
+    var row = data[i];
+    var companySlug = getSlug(row.company_name);
+    var personSlug = getSlug(row.company_person_name);
 
     if (_.isUndefined(companies[companySlug])) {
       companies[companySlug] = {
         'name': row.company_name,
+        'slug': companySlug,
         'id': row.company_id,
         'date': row.company_date,
         'persons': []
       };  
     }
     companies[companySlug]['persons'].push(personSlug);
-    
+    companies[companySlug]['degree'] = companies[companySlug]['persons'].length;
+
+    if (_.isUndefined(persons[personSlug])) {
+      persons[personSlug] = {
+        'name': row.company_person_name,
+        'slug': personSlug,
+        'companies': [],
+        //'roles': [] // TOOD PEP roles
+      };  
+    }
+    persons[personSlug]['companies'].push(companySlug);
+    persons[personSlug]['degree'] = persons[personSlug]['companies'].length;
+  }
+
+  var personsList = _.sortBy(_.values(persons), function(p) {
+    return p.degree * -1;
   });
-  //console.log(companies.length);
-  console.log(_.keys(companies).length);
+
+  d3.select("#persons").selectAll('li')
+      .data(personsList)
+    .enter()
+      .append("li")
+      .text(function(d) { return d.name + ' (' + d.degree + ')'; });
+
+  var companiesList = _.sortBy(_.values(companies), function(c) {
+    return c.degree * -1;
+  });
+
+  d3.select("#companies").selectAll('li')
+      .data(companiesList)
+    .enter()
+      .append("li")
+      .text(function(d) { return d.name + ' (' + d.degree + ')'; });
+
 });

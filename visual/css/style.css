@@ -3,6 +3,12 @@ body {
     font-family: 'Open Sans', sans-serif;
 }
 
+.entity-list {
+    max-height: 600px;
+    overflow-y: scroll;
+}
+
+
 #map {
     width: 400px;
     height: 600px;
@@ -14,7 +20,7 @@ body {
 }
 
 #map .concession {
-    fill: rgba(180, 180, 180, 128);
+    fill: rgba(180, 180, 180, 150);
 }
 
 #map .place {
