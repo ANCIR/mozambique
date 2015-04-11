@@ -34,17 +34,11 @@ except:
     pass
 
 
-def scrape_layers(sess, name, title, url, token, rest_url):
+def scrape_layers(sess, data, token, rest_url):
     res = sess.get(rest_url, params={'f': 'json', 'token': token})
-    data = {
-        'source_name': name,
-        'source_title': title,
-        'source_url': url,
-        'rest_url': rest_url,
-        'layers': []
-    }
-    print 'Scraping %(source_title)s at %(source_url)s' % data
+    print 'Scraping %s at %s' % (data['source_title'], rest_url)
     for layer in res.json().get('layers'):
+        layer['rest_url'] = rest_url
         query_url = '%s/%s/query' % (rest_url, layer['id'])
         q = QUERY.copy()
         q['token'] = token
@@ -63,10 +57,7 @@ def scrape_layers(sess, name, title, url, token, rest_url):
         data['layers'].append(layer)
 
     # print 'Entries:', len(data['layers'])
-
-    path = os.path.join(STORE_PATH, '%s.json' % name)
-    with open(path, 'wb') as fh:
-        json.dump(data, fh)
+    return data
 
 
 def scrape_configs():
@@ -80,14 +71,26 @@ def scrape_configs():
         text = text.replace('\\\\\\"', "")
 
         text = '"%s"' % text
-        data = json.loads(json.loads(text))
+        cfg = json.loads(json.loads(text))
 
-        token = data['Extras'].pop()
-        title = data['Title']
-        for service in data['MapServices']:
+        token = cfg['Extras'].pop()
+
+        data = {
+            'source_name': name,
+            'source_title': cfg['Title'],
+            'source_url': url,
+            # 'rest_url': rest_url,
+            'layers': []
+        }
+
+        for service in cfg['MapServices']:
             if service['MapServiceType'] == 'Features':
                 rest_url = service['RestUrl']
-                scrape_layers(sess, name, title, url, token, rest_url)
+                data = scrape_layers(sess, data, token, rest_url)
+
+        path = os.path.join(STORE_PATH, '%s.json' % name)
+        with open(path, 'wb') as fh:
+            json.dump(data, fh)
 
 
 if __name__ == '__main__':
