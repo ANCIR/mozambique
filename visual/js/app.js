@@ -1,18 +1,72 @@
 
-var width = 450,
-  height = 600,
-  svg = d3.select("#map").append("svg")
-    .attr("width", width)
-    .attr("height", height);
+var companies = {},
+    persons = {};
+
+var bbox = d3.select("#map-container"),
+    width = parseFloat(bbox.style('width').replace('px', '')) * 0.9,
+    height = width * 1.5,
+    svg = d3.select("#map").append("svg")
+      .attr("width", width)
+      .attr("height", height);
+
 
 d3.json('maps/moz_c.json', function(error, data) {
+  renderMap(data);
+
+  d3.csv('data/persons.csv', function(error, data) {
+    processLinkageData(data);
+    renderLists();
+  });
+
+});
+
+
+var processLinkageData = function(data) {
+  companies = {};
+  persons = {};
+
+  for (var i in data) {
+    var row = data[i];
+    var companySlug = getSlug(row.company_name);
+    var personSlug = getSlug(row.company_person_name);
+
+    if (_.isUndefined(companies[companySlug])) {
+      companies[companySlug] = {
+        'name': row.company_name,
+        'slug': companySlug,
+        'id': row.company_id,
+        'date': row.company_date,
+        'persons': []
+      };  
+    }
+    if (_.indexOf(companies[companySlug]['persons'], personSlug) == -1) {
+      companies[companySlug]['persons'].push(personSlug);
+      companies[companySlug]['degree'] = companies[companySlug]['persons'].length;
+    }
+    
+    if (_.isUndefined(persons[personSlug])) {
+      persons[personSlug] = {
+        'name': row.company_person_name,
+        'slug': personSlug,
+        'companies': [],
+        //'roles': [] // TOOD PEP roles
+      };  
+    }
+    if (_.indexOf(persons[personSlug]['companies'], companySlug) == -1) {
+      persons[personSlug]['companies'].push(companySlug);
+      persons[personSlug]['degree'] = persons[personSlug]['companies'].length;
+    }
+  }
+};
+
+var renderMap = function(data) {
   var subunits = topojson.feature(data, data.objects.subunits);
   var places = topojson.feature(data, data.objects.places);
   var concessions = topojson.feature(data, data.objects.concessions);
 
   var projection = d3.geo.orthographic()
-    .scale(2100)
-    .translate([width / 2.5, height / 2.5])
+    .scale(width * 5)
+    .translate([width / 2, height / 2.5])
     .center(d3.geo.centroid(subunits));
 
   var path = d3.geo.path()
@@ -67,42 +121,9 @@ d3.json('maps/moz_c.json', function(error, data) {
       .text(function(d) {
         return d.properties.name; }
       );
+};
 
-});
-
-
-d3.csv('data/persons.csv', function(error, data) {
-  var companies = {},
-      persons = {};
-  for (var i in data) {
-    var row = data[i];
-    var companySlug = getSlug(row.company_name);
-    var personSlug = getSlug(row.company_person_name);
-
-    if (_.isUndefined(companies[companySlug])) {
-      companies[companySlug] = {
-        'name': row.company_name,
-        'slug': companySlug,
-        'id': row.company_id,
-        'date': row.company_date,
-        'persons': []
-      };  
-    }
-    companies[companySlug]['persons'].push(personSlug);
-    companies[companySlug]['degree'] = companies[companySlug]['persons'].length;
-
-    if (_.isUndefined(persons[personSlug])) {
-      persons[personSlug] = {
-        'name': row.company_person_name,
-        'slug': personSlug,
-        'companies': [],
-        //'roles': [] // TOOD PEP roles
-      };  
-    }
-    persons[personSlug]['companies'].push(companySlug);
-    persons[personSlug]['degree'] = persons[personSlug]['companies'].length;
-  }
-
+var renderLists = function() {
   var personsList = _.sortBy(_.values(persons), function(p) {
     return p.degree * -1;
   });
@@ -123,4 +144,4 @@ d3.csv('data/persons.csv', function(error, data) {
       .append("li")
       .text(function(d) { return d.name + ' (' + d.degree + ')'; });
 
-});
+}

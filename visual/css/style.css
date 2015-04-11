@@ -8,11 +8,17 @@ body {
     overflow-y: scroll;
 }
 
+.entity-list ul {
+    list-style-type: none;
+    padding: 0;
+}
 
-#map {
+/*#map {
     width: 400px;
     height: 600px;
 }
+*/
+
 
 #map .region {
     fill: #ddd;
