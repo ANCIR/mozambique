@@ -2,12 +2,17 @@
 var companies = {},
     persons = {};
 
-var bbox = d3.select("#map-container"),
-    width = parseFloat(bbox.style('width').replace('px', '')) * 0.9,
+var mapboxEl = d3.select("#map-container"),
+    loadingEl = d3.select("#loading"),
+    width = parseFloat(mapboxEl.style('width').replace('px', '')) * 0.9,
     height = width * 1.5,
     svg = d3.select("#map").append("svg")
       .attr("width", width)
       .attr("height", height);
+
+var concessionsSel = null,
+    personsSel = null,
+    companiesSel = null;
 
 
 d3.json('maps/moz_c.json', function(error, mapData) {
@@ -15,8 +20,14 @@ d3.json('maps/moz_c.json', function(error, mapData) {
     processLinkageData(linkage, mapData);
     renderMap(mapData);
     renderLists();
+    toggleLoading(false);
   });
 });
+
+
+var toggleLoading = function(state) {
+  loadingEl.classed('hidden', !state);
+};
 
 
 var processLinkageData = function(linkage, mapData) {
@@ -43,6 +54,7 @@ var processLinkageData = function(linkage, mapData) {
       companies[companySlug] = {
         'name': row.company_name,
         'slug': companySlug,
+        'parties_slug': partiesSlug, 
         'id': row.company_id,
         'date': row.company_date,
         'concessions': concessions[partiesSlug],
@@ -106,7 +118,7 @@ var renderMap = function(data) {
         self.attr('class', d.baseClass);  
       });
 
-  svg.selectAll(".concession")
+  concessionsSel = svg.selectAll(".concession")
       .data(concessions.features)
     .enter().append("path")
       .attr("class", "concession")
@@ -142,7 +154,7 @@ var renderLists = function() {
     return p.concessions * -1;
   });
 
-  d3.select("#persons").selectAll('li')
+  personsSel = d3.select("#persons").selectAll('li')
       .data(personsList)
     .enter()
       .append("li")
@@ -152,10 +164,11 @@ var renderLists = function() {
     return c.concessions * -1;
   });
 
-  d3.select("#companies").selectAll('li')
+  companiesSel = d3.select("#companies").selectAll('li')
       .data(companiesList)
     .enter()
       .append("li")
       .text(function(d) { return d.name + ' (' + d.concessions + ')'; });
 
 }
+
