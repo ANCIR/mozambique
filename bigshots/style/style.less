@@ -32,7 +32,7 @@
 @land-color: @col-6;
 @conc-color: darken(@land-color, 20%);
 @rel-color: @col-2;
-@list-bg-col: #f5f5f5;
+@list-bg-col: #f9f9f9;
 
 // Reset
 @import "../vendor/bootstrap/less/normalize.less";
@@ -108,11 +108,14 @@ h3 {
 .intro {
   p {
     font-size: 1.2em;
+    margin-top: 1em;
+    margin-bottom: 1em;
   }
 }
 
 .footer {
   padding-top: 2em;
+  padding-bottom: 4em;
   border-top: 1px solid darken(@list-bg-col, 5%);
   //color: white;
 
@@ -148,8 +151,6 @@ h3 {
   }
 }
 
-
-
 .entity-list {
   max-height: @visual-height;
   overflow-y: scroll;
@@ -166,12 +167,21 @@ h3 {
         cursor: pointer;
         background-color: @list-bg-col;
         margin-bottom: 1px;
+
+        .conc-count {
+          float: right;
+          padding-right: 0.2em;
+          color: darken(@list-bg-col, 20%);
+        }
     }
 
     li.relevant {
       background-color: @rel-color;
       color: white;
       font-weight: 500;
+      .conc-count {
+        color: white;
+      }
     }
 
     li.hidden {

@@ -7,6 +7,8 @@ var companies = {},
 
 var mapboxEl = d3.select("#map-container"),
     loadingEl = d3.select("#loading"),
+    personTpl = _.template(d3.select("#person-tpl").html()),
+    companyTpl = _.template(d3.select("#company-tpl").html()),
     width = parseFloat(mapboxEl.style('width').replace('px', '')) * 0.9,
     height = width * 1.5,
     svg = d3.select("#map").append("svg")
@@ -160,12 +162,14 @@ var renderLists = function() {
       .data(personsList)
     .enter()
       .append("li")
-      .text(function(d) { return d.name + ' (' + d.concessions + ')'; })
+      .html(function(d) { return personTpl(d); })
       .on('mouseenter', function(d) {
         hoverEntity(d.slug, 'relevant');
       })
       .on('mouseleave', function(d) {
-        hoverEntity(null, 'relevant');
+        if (filterState.pinned != d.slug) {
+          hoverEntity(null, 'relevant');  
+        }
       })
       .on('click', function(d) {
         var o = filterState.pinned == d.slug ? null : d.slug;
@@ -182,12 +186,14 @@ var renderLists = function() {
       .data(companiesList)
     .enter()
       .append("li")
-      .text(function(d) { return d.name + ' (' + d.concessions + ')'; })
+      .html(function(d) { return companyTpl(d); })
       .on('mouseenter', function(d) {
         hoverEntity(d.slug, 'relevant');
       })
       .on('mouseleave', function(d) {
-        hoverEntity(null, 'relevant');
+        if (filterState.pinned != d.slug) {
+          hoverEntity(null, 'relevant');  
+        }
       })
       .on('click', function(d) {
         var o = filterState.pinned == d.slug ? null : d.slug;

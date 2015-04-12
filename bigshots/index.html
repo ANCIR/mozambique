@@ -32,9 +32,9 @@
           </div>
           <div class="col-sm-6">
             <p>
-              <strong>Warning:</strong> this graphic is based on unverified concessions and company
-              control data from on-line sources. Please be sure to independently
-              verify any linkages before citing this page.
+              <strong>Warning:</strong> this graphic is currently based on unverified
+              concessions and company control data from on-line sources. Please be sure
+              to independently verify any linkages before citing this page.
             </p>
           </div>
         </div>
@@ -83,6 +83,15 @@
       </div>
     </div>
 
+    <script id="person-tpl" type="text/x-underscore-tpl">
+      <%= name %>
+      <div class="conc-count"><%= concessions %></div>
+    </script>
+
+    <script id="company-tpl" type="text/x-underscore-tpl">
+      <%= name %>
+      <div class="conc-count"><%= concessions %></div>
+    </script>
 
     <script src="assets/deps.js"></script>
     <script src="js/app.js"></script>
