@@ -62,5 +62,5 @@ data/flexicadastre/*
 data/exports/*
 data/corpwatch/*
 data/pep/*.csv
-visual/js/vendor/*
+visual/vendor/*
 visual/maps/*

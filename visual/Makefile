@@ -1,12 +1,12 @@
 
 all: clean build
 
-build: maps/moz.json maps/moz_c.json js/deps.js data/persons.csv
+build: maps/moz.json maps/moz_c.json data/persons.csv assets
 
 clean:
 	rm -f maps/moz.json
 	rm -f maps/moz_c.json
-	rm -f js/deps.js
+	rm -f assets/deps.js
 	rm -rf js/vendor
 
 maps/admin1.zip:
@@ -58,11 +58,17 @@ data/persons.csv:
 	mkdir -p data
 	cp ../data/exports/concession_persons.csv data/persons.csv
 
-js/deps.js:
+assets/deps.js:
 	bower install
-	uglifyjs --screw-ie8 -c -o js/deps.js \
-		js/vendor/underscore/underscore.js \
-		js/vendor/speakingurl/speakingurl.min.js \
-		js/vendor/d3/d3.js \
-		js/vendor/topojson/topojson.js
+	uglifyjs --screw-ie8 -c -o assets/deps.js \
+		vendor/underscore/underscore.js \
+		vendor/speakingurl/speakingurl.min.js \
+		vendor/d3/d3.js \
+		vendor/topojson/topojson.js
 
+.PHONY: assets
+assets: assets/deps.js
+	lessc -x style/style.less assets/style.css
+
+watch:
+	watchr -e "watch('.*') { system 'make assets' }"
