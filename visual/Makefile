@@ -35,21 +35,19 @@ maps/moz.json: maps/admin1.zip maps/places.zip
 		maps/ne_10m_populated_places.shp
 
 	topojson -o maps/moz.json \
-		--id-property adm1_code \
-		--properties name=NAME \
-		--bbox \
 		-- \
 		maps/subunits.json \
 		maps/places.json
 
 maps/moz_c.json: maps/admin1.zip maps/places.zip
 	topojson -o maps/concessions.json \
+		--properties layer=layer,parties=parties \
 		-- \
 		concessions=../data/flexicadastre/geo/MZ.json
 
 	topojson -o maps/moz_c.json \
 		--id-property adm1_code \
-		--properties name=NAME \
+		--properties name=NAME,layer=layer,parties=parties \
 		--bbox \
 		-- \
 		maps/concessions.json \

@@ -10,25 +10,34 @@ var bbox = d3.select("#map-container"),
       .attr("height", height);
 
 
-d3.json('maps/moz_c.json', function(error, data) {
-  renderMap(data);
-
-  d3.csv('data/persons.csv', function(error, data) {
-    processLinkageData(data);
+d3.json('maps/moz_c.json', function(error, mapData) {
+  d3.csv('data/persons.csv', function(error, linkage) {
+    processLinkageData(linkage, mapData);
+    renderMap(mapData);
     renderLists();
   });
-
 });
 
 
-var processLinkageData = function(data) {
+var processLinkageData = function(linkage, mapData) {
+  var concessions = {};
   companies = {};
   persons = {};
 
-  for (var i in data) {
-    var row = data[i];
+  for (var j in mapData.objects.concessions.geometries) {
+    var feat = mapData.objects.concessions.geometries[j];
+    var slug = feat.properties.slug = getSlug(feat.properties.parties);
+    if (_.isUndefined(concessions[slug])) {
+      concessions[slug] = 0;
+    }
+    concessions[slug] += 1;
+  }
+
+  for (var i in linkage) {
+    var row = linkage[i];
     var companySlug = getSlug(row.company_name);
     var personSlug = getSlug(row.company_person_name);
+    var partiesSlug = getSlug(row.conc_parties);
 
     if (_.isUndefined(companies[companySlug])) {
       companies[companySlug] = {
@@ -36,8 +45,9 @@ var processLinkageData = function(data) {
         'slug': companySlug,
         'id': row.company_id,
         'date': row.company_date,
+        'concessions': concessions[partiesSlug],
         'persons': []
-      };  
+      };
     }
     if (_.indexOf(companies[companySlug]['persons'], personSlug) == -1) {
       companies[companySlug]['persons'].push(personSlug);
@@ -49,15 +59,18 @@ var processLinkageData = function(data) {
         'name': row.company_person_name,
         'slug': personSlug,
         'companies': [],
+        'concessions': 0,
         //'roles': [] // TOOD PEP roles
       };  
     }
     if (_.indexOf(persons[personSlug]['companies'], companySlug) == -1) {
       persons[personSlug]['companies'].push(companySlug);
+      persons[personSlug]['concessions'] += concessions[partiesSlug];
       persons[personSlug]['degree'] = persons[personSlug]['companies'].length;
     }
   }
 };
+
 
 var renderMap = function(data) {
   var subunits = topojson.feature(data, data.objects.subunits);
@@ -123,25 +136,26 @@ var renderMap = function(data) {
       );
 };
 
+
 var renderLists = function() {
   var personsList = _.sortBy(_.values(persons), function(p) {
-    return p.degree * -1;
+    return p.concessions * -1;
   });
 
   d3.select("#persons").selectAll('li')
       .data(personsList)
     .enter()
       .append("li")
-      .text(function(d) { return d.name + ' (' + d.degree + ')'; });
+      .text(function(d) { return d.name + ' (' + d.concessions + ')'; });
 
   var companiesList = _.sortBy(_.values(companies), function(c) {
-    return c.degree * -1;
+    return c.concessions * -1;
   });
 
   d3.select("#companies").selectAll('li')
       .data(companiesList)
     .enter()
       .append("li")
-      .text(function(d) { return d.name + ' (' + d.degree + ')'; });
+      .text(function(d) { return d.name + ' (' + d.concessions + ')'; });
 
 }
