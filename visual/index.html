@@ -17,37 +17,73 @@
     <link rel="shortcut icon" href="http://www.codeforafrica.org/favicon.png">
   </head>
   <body>
-    <div id="loading">
-      <div class="message">
-        <i class="fa fa-spinner fa-pulse"></i>
+    <div id="page">
+      <div class="container-fluid intro">
+        <div class="row">
+          <div class="col-sm-12">
+            <h1>The Miners of Mozambique</h1>
+          </div>
+          <div class="col-sm-6">
+            <p>
+              Who are the people behind the mining industry in Mozambique? A partial
+              answer can be found by connecting minerals concessions to the people
+              who control the licensed exploration and mining companies.
+            </p>
+          </div>
+          <div class="col-sm-6">
+            <p>
+              <strong>Warning:</strong> this graphic is based on unverified concessions and company
+              control data from on-line sources. Please be sure to independently
+              verify any linkages before citing this page.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div id="visual">
+        <div id="loading">
+          <div class="message">
+            <i class="fa fa-spinner fa-pulse"></i>
+          </div>
+        </div>
+
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-sm-4">
+              <h3>People</h3>
+              <div class="entity-list">
+                <ul id="persons"></ul>
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <h3>Companies</h3>
+              <div class="entity-list">
+                <ul id="companies"></ul>
+              </div>
+            </div>
+            <div class="col-sm-4" id="map-container">
+              <h3>Concessions</h3>
+              <div id="map"></div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
-    <div class="container-fluid">
+    <div class="container-fluid footer">
       <div class="row">
-        <div class="col-sm-4">
-          <h3>People</h3>
-          <div class="entity-list">
-            <ul id="persons"></ul>
-          </div>
+        <div class="col-sm-6">
         </div>
-        <div class="col-sm-4">
-          <h3>Companies</h3>
-          <div class="entity-list">
-            <ul id="companies"></ul>
-          </div>
-        </div>
-        <div class="col-sm-4" id="map-container">
-          <h3>Concessions</h3>
-          <div id="map"></div>
+        <div class="col-sm-6">
+          <p>
+          Produced by the <a href="http://investigativecenters.org">African Network of Centers for Investigative Reporting</a> (ANCIR)
+          and <a href="http://www.res4dev.com/">Resources for Development Consulting</a> for the <a href="http://www.cip.org.mz/">Centro de Integridade Publica</a>.
+          </p>
         </div>
       </div>
     </div>
 
-    <!--script src="js/vendor/jquery/dist/jquery.js"></script-->
-    <!--script src="js/vendor/speakingurl/speakingurl.min.js"></script>
-    <script src="js/vendor/d3/d3.js"></script>
-    <script src="js/vendor/topojson/topojson.js"></script-->
+
     <script src="assets/deps.js"></script>
     <script src="js/app.js"></script>
   </body>

@@ -28,6 +28,12 @@
 // Style tiles, Fonts
 @font-default: 'Open Sans', sans-serif;
 
+@visual-height: 600px;
+@land-color: @col-6;
+@conc-color: darken(@land-color, 20%);
+@rel-color: @col-2;
+@list-bg-col: #f5f5f5;
+
 // Reset
 @import "../vendor/bootstrap/less/normalize.less";
 @import "../vendor/bootstrap/less/print.less";
@@ -77,9 +83,48 @@
 
 
 body {
-    font-family: @font-default;
+  font-family: @font-default;
+  font-weight: 300;
+  background-color: @list-bg-col;
 }
 
+#page {
+  background-color: #fff;
+  padding-bottom: 2em;
+}
+
+h1, h2, h3 {
+  font-weight: 300;
+}
+
+h1 {
+  font-weight: 900;
+}
+
+h3 {
+  text-transform: uppercase;
+}
+
+.intro {
+  p {
+    font-size: 1.2em;
+  }
+}
+
+.footer {
+  padding-top: 2em;
+  //color: white;
+
+  a, a:hover {
+    text-decoration: underline;
+    color: #333;
+  }
+}
+
+#visual {
+  min-height: @visual-height;
+  position: relative;
+}
 
 #loading {
   position: absolute;
@@ -103,23 +148,29 @@ body {
 }
 
 
+
 .entity-list {
-  max-height: 600px;
+  max-height: @visual-height;
   overflow-y: scroll;
+  background-color: darken(@list-bg-col, 5%);
+  border-bottom: 2px solid @list-bg-col;
 
   ul {
       list-style-type: none;
-      padding: 0;
+      padding: 2px;
 
     li {
-        padding: 0.3em 0 0.3em 0;
-        border-top: 1px solid #ddd;
+        padding: 0.3em 0 0.3em 0.2em;
+        //border-top: 1px solid #ddd;
         cursor: pointer;
+        background-color: @list-bg-col;
+        margin-bottom: 1px;
     }
 
     li.relevant {
-      background-color: red;
+      background-color: @rel-color;
       color: white;
+      font-weight: 500;
     }
 
     li.hidden {
@@ -128,8 +179,9 @@ body {
 
     li.relevant.pinned,
     li.pinned {
-      background-color: white;
+      background-color: @list-bg-col;
       color: black;
+      font-weight: 300;
     }
   }
 }
@@ -137,12 +189,13 @@ body {
 
 #map {
   .region {
-    fill: #ddd;
-    stroke: #bbb;
+    fill: @land-color;
+    stroke: darken(@land-color, 20%);
   }
 
   .concession {
-    fill: rgba(180, 180, 180, 150);
+    fill: @conc-color;
+    opacity: 0.3;
   }
 
   .concession-shape {
@@ -150,8 +203,8 @@ body {
   }
 
   .concession-shape.relevant {
-    fill: red;
-    stroke: red;
+    fill: @rel-color;
+    stroke: @rel-color;
     stroke-width: 0.5px;
   }
 
