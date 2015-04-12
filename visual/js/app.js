@@ -1,6 +1,9 @@
 
 var companies = {},
-    persons = {};
+    persons = {},
+    filterState = {
+      'pinned': null
+    };
 
 var mapboxEl = d3.select("#map-container"),
     loadingEl = d3.select("#loading"),
@@ -25,6 +28,11 @@ d3.json('maps/moz_c.json', function(error, mapData) {
 });
 
 
+var nsSlug = function(cls, name) {
+  return cls + '-' + getSlug(name);
+};
+
+
 var toggleLoading = function(state) {
   loadingEl.classed('hidden', !state);
 };
@@ -37,7 +45,7 @@ var processLinkageData = function(linkage, mapData) {
 
   for (var j in mapData.objects.concessions.geometries) {
     var feat = mapData.objects.concessions.geometries[j];
-    var slug = feat.properties.slug = getSlug(feat.properties.parties);
+    var slug = feat.properties.slug = nsSlug('a', feat.properties.parties);
     if (_.isUndefined(concessions[slug])) {
       concessions[slug] = 0;
     }
@@ -46,26 +54,26 @@ var processLinkageData = function(linkage, mapData) {
 
   for (var i in linkage) {
     var row = linkage[i];
-    var companySlug = getSlug(row.company_name);
-    var personSlug = getSlug(row.company_person_name);
-    var partiesSlug = getSlug(row.conc_parties);
+    var companySlug = nsSlug('c', row.company_name);
+    var personSlug = nsSlug('p', row.company_person_name);
+    var partiesSlug = nsSlug('a', row.conc_parties);
 
     if (_.isUndefined(companies[companySlug])) {
       companies[companySlug] = {
         'name': row.company_name,
         'slug': companySlug,
-        'parties_slug': partiesSlug, 
         'id': row.company_id,
         'date': row.company_date,
         'concessions': concessions[partiesSlug],
+        'parties': partiesSlug, 
         'persons': []
       };
     }
-    if (_.indexOf(companies[companySlug]['persons'], personSlug) == -1) {
+    if (companies[companySlug]['persons'].indexOf(personSlug) == -1) {
       companies[companySlug]['persons'].push(personSlug);
       companies[companySlug]['degree'] = companies[companySlug]['persons'].length;
     }
-    
+
     if (_.isUndefined(persons[personSlug])) {
       persons[personSlug] = {
         'name': row.company_person_name,
@@ -73,9 +81,9 @@ var processLinkageData = function(linkage, mapData) {
         'companies': [],
         'concessions': 0,
         //'roles': [] // TOOD PEP roles
-      };  
+      };
     }
-    if (_.indexOf(persons[personSlug]['companies'], companySlug) == -1) {
+    if (persons[personSlug]['companies'].indexOf(companySlug) == -1) {
       persons[personSlug]['companies'].push(companySlug);
       persons[personSlug]['concessions'] += concessions[partiesSlug];
       persons[personSlug]['degree'] = persons[personSlug]['companies'].length;
@@ -104,24 +112,18 @@ var renderMap = function(data) {
         var clazz = "region " + d.id;
         return clazz;
       })
-      .attr("d", path)
-      .on("click", function(d) {
-        
-      })
-      .on("mouseenter", function(d) {
-        var self = d3.select(this);
-        d.baseClass = self.attr('class');
-        self.attr('class', d.baseClass + ' hovered');
-      })
-      .on("mouseleave", function(d) {
-        var self = d3.select(this);
-        self.attr('class', d.baseClass);  
-      });
+      .attr("d", path);
 
-  concessionsSel = svg.selectAll(".concession")
+  svg.selectAll(".concession")
       .data(concessions.features)
     .enter().append("path")
       .attr("class", "concession")
+      .attr("d", path);
+
+  concessionsSel = svg.selectAll(".concession-shape")
+      .data(concessions.features)
+    .enter().append("path")
+      .attr("class", "concession-shape")
       .attr("d", path);
 
   svg.append("path")
@@ -158,7 +160,19 @@ var renderLists = function() {
       .data(personsList)
     .enter()
       .append("li")
-      .text(function(d) { return d.name + ' (' + d.concessions + ')'; });
+      .text(function(d) { return d.name + ' (' + d.concessions + ')'; })
+      .on('mouseenter', function(d) {
+        hoverEntity(d.slug, 'relevant');
+      })
+      .on('mouseleave', function(d) {
+        hoverEntity(null, 'relevant');
+      })
+      .on('click', function(d) {
+        var o = filterState.pinned == d.slug ? null : d.slug;
+        filterState.pinned = o;
+        hoverEntity(o, 'hidden', true);
+        hoverEntity(o, 'pinned', false);
+      });
 
   var companiesList = _.sortBy(_.values(companies), function(c) {
     return c.concessions * -1;
@@ -168,7 +182,57 @@ var renderLists = function() {
       .data(companiesList)
     .enter()
       .append("li")
-      .text(function(d) { return d.name + ' (' + d.concessions + ')'; });
+      .text(function(d) { return d.name + ' (' + d.concessions + ')'; })
+      .on('mouseenter', function(d) {
+        hoverEntity(d.slug, 'relevant');
+      })
+      .on('mouseleave', function(d) {
+        hoverEntity(null, 'relevant');
+      })
+      .on('click', function(d) {
+        var o = filterState.pinned == d.slug ? null : d.slug;
+        filterState.pinned = o;
+        hoverEntity(o, 'hidden', true);
+        hoverEntity(o, 'pinned', false);
+      });
+};
 
-}
+var relatedItems = function(slug) {
+  if (!slug) return [];
+  var related = [slug];
+  if(_.has(companies, slug)) {
+    related = related.concat(companies[slug].persons);
+  }
+  if(_.has(persons, slug)) {
+    related = related.concat(persons[slug].companies);
+  }
+  for (var i in related) {
+    var x = related[i];
+    if (_.has(companies, x)) {
+      related.push(companies[x].parties);
+    }
+  }
+  return related;
+};
+
+var hoverEntity = function(target, cls, inverted) {
+  inverted = inverted ? true : false;
+  if (!target) {
+    companiesSel.classed(cls, false);
+    personsSel.classed(cls, false);
+    concessionsSel.classed(cls, false);
+  } else {
+    var relevant = relatedItems(target);
+    //console.log(relevant, filterState.hover);
+    companiesSel.classed(cls, function(d) {
+      return inverted ^ relevant.indexOf(d.slug) != -1;
+    });
+    personsSel.classed(cls, function(d) {
+      return inverted ^ relevant.indexOf(d.slug) != -1;
+    });
+    concessionsSel.classed(cls, function(d) {
+      return inverted ^ relevant.indexOf(d.properties.slug) != -1;
+    });
+  }
+};
 
