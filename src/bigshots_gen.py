@@ -31,7 +31,7 @@ REPLS = {re.compile(k): v for k, v in REPLS.items()}
 
 def make_slug(sec, key):
     key = hashlib.sha1(key.encode('utf-8')).hexdigest()
-    return '%s-%s' % (sec, key)
+    return '%s%s' % (sec, key[:8])
 
 
 def fingerprint(name):
@@ -97,7 +97,8 @@ def write_aliases(table):
 
 
 def generate_aliases(table, ref_list, match_list, dist_limit=3):
-    comps = 0
+    comps = 0.0
+    total_comps = float(max(1, len(ref_list) * len(match_list)))
     for ref in ref_list:
         if not table.find_one(name=ref['name']):
             table.insert({
@@ -108,9 +109,10 @@ def generate_aliases(table, ref_list, match_list, dist_limit=3):
 
         for match in match_list:
             dist = distance(match['fp'], ref['fp'])
-            comps += 1
+            comps += 1.0
             if comps and comps % 100000 == 0:
-                print '%s matching: %s comparisons' % (table.table.name, comps)
+                pct_comps = int((comps / total_comps) * 100)
+                print '%s matching: %s%%' % (table.table.name, pct_comps)
             if dist < dist_limit:
                 if not table.find_one(name=match['name']):
                     table.insert({
@@ -124,8 +126,8 @@ def generate_aliases(table, ref_list, match_list, dist_limit=3):
 
     write_aliases(table)
 
-read_aliases(company_aliases)
-generate_aliases(company_aliases, HOLDERS, COMPANIES)
+# read_aliases(company_aliases)
+# generate_aliases(company_aliases, HOLDERS, COMPANIES)
 
 
 def load_aliases(table):
@@ -138,20 +140,13 @@ def load_aliases(table):
 all_c_aliases = load_aliases(company_aliases)
 COMPANIES = {}
 for holder in HOLDERS:
-    # aliases = set([holder['name']])
     canon = all_c_aliases[holder['name']]
 
     slug = make_slug('c', canon)
     if slug not in COMPANIES:
-        # aliases.add(canon)
-        # for a, c in all_c_aliases.items():
-        #     if c == canon:
-        #         aliases.add(a)
-
         COMPANIES[slug] = {
             'name': canon,
-            'slug': slug,
-            # 'aliases': aliases,
+            # 'slug': slug,
             'parties': [],
             'persons': [],
             'concessions': 0
@@ -162,14 +157,14 @@ for holder in HOLDERS:
         COMPANIES[slug]['concessions'] += holder['count']
 
 
-print '* Identified %s individual concession-holding entities' % len(COMPANIES)
+print '* Identified %s concession-holding entities by %s names' % \
+    (len(COMPANIES), len(all_c_aliases))
 
 PERSONS = []
 for person in hermes_relation.find(rel_key='socios_pessoas'):
     comp = person.get('source_name')
-
-    # if comp not in all_c_aliases:
-    #    all_c_aliases[comp] = comp
+    if comp not in all_c_aliases:
+        continue
 
     name = person.get('target_name')
     PERSONS.append({
@@ -179,35 +174,28 @@ for person in hermes_relation.find(rel_key='socios_pessoas'):
     })
 
 print '* Identified %s company-related person names' % len(PERSONS)
-read_aliases(person_aliases)
-generate_aliases(person_aliases, PERSONS + PEPS, [])
+# read_aliases(person_aliases)
+# generate_aliases(person_aliases, PERSONS + PEPS, [])
 
 all_p_aliases = load_aliases(person_aliases)
 UPERSONS = {}
 for person in PERSONS:
-    # aliases = set([person['name']])
-    canon = all_p_aliases[person['name']]
+    cslug = make_slug('c', person['comp'])
+    if cslug not in COMPANIES:
+        continue
 
+    canon = all_p_aliases[person['name']]
     slug = make_slug('p', canon)
     if slug not in UPERSONS:
-        # aliases.add(canon)
-        # for a, c in all_aliases.items():
-        #     if c == canon:
-        #         aliases.add(a)
-
         UPERSONS[slug] = {
             'name': canon,
-            'slug': slug,
-            # 'aliases': aliases,
+            # 'slug': slug,
             'companies': [],
             'concessions': 0
         }
 
-    cslug = make_slug('c', person['comp'])
     if cslug not in UPERSONS[slug]['companies']:
         UPERSONS[slug]['companies'].append(cslug)
-        if cslug not in COMPANIES:
-            print 'X', [person['comp']]
         comp = COMPANIES[cslug]
         UPERSONS[slug]['concessions'] += comp['concessions']
         if slug not in comp['persons']:
