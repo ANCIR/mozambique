@@ -7,3 +7,4 @@ lxml
 psycopg2
 csvkit
 unicodecsv
+python-levenshtein

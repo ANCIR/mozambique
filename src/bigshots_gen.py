@@ -1,13 +1,12 @@
 import os
 import re
+import hashlib
 import unicodecsv
 import dataset
 try:
     import cPickle as pickle
 except ImportError:
-    print "FOO"
     import pickle
-
 from Levenshtein import distance
 from normality import normalize
 from common import database, DATA_PATH
@@ -17,6 +16,7 @@ hermes_company = database['hermes_company']
 hermes_relation = database['hermes_relation']
 pep_table = database['pep']
 company_aliases = database['company_aliases']
+person_aliases = database['person_aliases']
 
 REPLS = {
     r's\.a\.r\.l\.?': 'sarl',
@@ -27,6 +27,11 @@ REPLS = {
 }
 
 REPLS = {re.compile(k): v for k, v in REPLS.items()}
+
+
+def make_slug(sec, key):
+    key = hashlib.sha1(key.encode('utf-8')).hexdigest()
+    return '%s-%s' % (sec, key)
 
 
 def fingerprint(name):
@@ -44,18 +49,20 @@ def get_names(table, name_field):
     if os.path.exists(pp):
         with open(pp, 'rb') as fh:
             return pickle.load(fh)
-    names = []
-    seen = set()
-    for row in table.distinct(name_field):
+    names = {}
+    for row in table:
         name = row.get(name_field)
-        if name is None or len(name) <= 2 or name in seen:
+        if name is None or len(name) <= 2:
             continue
-        seen.add(name)
-        names.append({
-            'name': name,
-            'fp': fingerprint(name)
-        })
+        if name not in names:
+            names[name] = {
+                'name': name,
+                'count': 0,
+                'fp': fingerprint(name)
+            }
+        names[name]['count'] += 1
 
+    names = names.values()
     with open(pp, 'wb') as fh:
         pickle.dump(names, fh)
     return names
@@ -65,6 +72,9 @@ print '* Loaded %s concession contract partners' % len(HOLDERS)
 
 COMPANIES = get_names(hermes_company, 'nome_da_entidade')
 print '* Loaded %s registered companies' % len(COMPANIES)
+
+PEPS = get_names(pep_table, 'full_name')
+print '* Loaded %s politically exposed persons' % len(PEPS)
 
 
 def read_aliases(table):
@@ -86,7 +96,7 @@ def write_aliases(table):
     dataset.freeze(table, filename=ap, format='csv')
 
 
-def generate_aliases(table, ref_list, match_list):
+def generate_aliases(table, ref_list, match_list, dist_limit=3):
     comps = 0
     for ref in ref_list:
         if not table.find_one(name=ref['name']):
@@ -101,7 +111,7 @@ def generate_aliases(table, ref_list, match_list):
             comps += 1
             if comps and comps % 100000 == 0:
                 print '%s matching: %s comparisons' % (table.table.name, comps)
-            if dist < 3:
+            if dist < dist_limit:
                 if not table.find_one(name=match['name']):
                     table.insert({
                         'name': match['name'],
@@ -114,5 +124,98 @@ def generate_aliases(table, ref_list, match_list):
 
     write_aliases(table)
 
-#read_aliases(company_aliases)
+read_aliases(company_aliases)
 generate_aliases(company_aliases, HOLDERS, COMPANIES)
+
+
+def load_aliases(table):
+    aliases = {}
+    for row in table:
+        aliases[row['canonical']] = row['canonical']
+        aliases[row['name']] = row['canonical']
+    return aliases
+
+all_c_aliases = load_aliases(company_aliases)
+COMPANIES = {}
+for holder in HOLDERS:
+    # aliases = set([holder['name']])
+    canon = all_c_aliases[holder['name']]
+
+    slug = make_slug('c', canon)
+    if slug not in COMPANIES:
+        # aliases.add(canon)
+        # for a, c in all_c_aliases.items():
+        #     if c == canon:
+        #         aliases.add(a)
+
+        COMPANIES[slug] = {
+            'name': canon,
+            'slug': slug,
+            # 'aliases': aliases,
+            'parties': [],
+            'persons': [],
+            'concessions': 0
+        }
+
+    if holder['name'] not in COMPANIES[slug]['parties']:
+        COMPANIES[slug]['parties'].append(holder['name'])
+        COMPANIES[slug]['concessions'] += holder['count']
+
+
+print '* Identified %s individual concession-holding entities' % len(COMPANIES)
+
+PERSONS = []
+for person in hermes_relation.find(rel_key='socios_pessoas'):
+    comp = person.get('source_name')
+
+    # if comp not in all_c_aliases:
+    #    all_c_aliases[comp] = comp
+
+    name = person.get('target_name')
+    PERSONS.append({
+        'name': name,
+        'comp': all_c_aliases[comp],
+        'fp': fingerprint(name)
+    })
+
+print '* Identified %s company-related person names' % len(PERSONS)
+read_aliases(person_aliases)
+generate_aliases(person_aliases, PERSONS + PEPS, [])
+
+all_p_aliases = load_aliases(person_aliases)
+UPERSONS = {}
+for person in PERSONS:
+    # aliases = set([person['name']])
+    canon = all_p_aliases[person['name']]
+
+    slug = make_slug('p', canon)
+    if slug not in UPERSONS:
+        # aliases.add(canon)
+        # for a, c in all_aliases.items():
+        #     if c == canon:
+        #         aliases.add(a)
+
+        UPERSONS[slug] = {
+            'name': canon,
+            'slug': slug,
+            # 'aliases': aliases,
+            'companies': [],
+            'concessions': 0
+        }
+
+    cslug = make_slug('c', person['comp'])
+    if cslug not in UPERSONS[slug]['companies']:
+        UPERSONS[slug]['companies'].append(cslug)
+        if cslug not in COMPANIES:
+            print 'X', [person['comp']]
+        comp = COMPANIES[cslug]
+        UPERSONS[slug]['concessions'] += comp['concessions']
+        if slug not in comp['persons']:
+            comp['persons'].append(slug)
+
+print '* Identified %s unique persons' % len(UPERSONS)
+
+import json
+with open('tmp.json', 'wb') as fh:
+    json.dump({'persons': UPERSONS, 'companies': COMPANIES}, fh)
+

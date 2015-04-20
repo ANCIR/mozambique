@@ -64,3 +64,4 @@ data/corpwatch/*
 data/pep/*.csv
 bigshots/vendor/*
 bigshots/maps/*
+*.pickle

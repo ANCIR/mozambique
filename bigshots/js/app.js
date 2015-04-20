@@ -64,8 +64,8 @@ var processLinkageData = function(linkage, mapData) {
       companies[companySlug] = {
         'name': row.company_name,
         'slug': companySlug,
-        'id': row.company_id,
-        'date': row.company_date,
+        //'id': row.company_id,
+        //'date': row.company_date,
         'concessions': concessions[partiesSlug],
         'parties': partiesSlug, 
         'persons': []
@@ -73,7 +73,7 @@ var processLinkageData = function(linkage, mapData) {
     }
     if (companies[companySlug]['persons'].indexOf(personSlug) == -1) {
       companies[companySlug]['persons'].push(personSlug);
-      companies[companySlug]['degree'] = companies[companySlug]['persons'].length;
+      //companies[companySlug]['degree'] = companies[companySlug]['persons'].length;
     }
 
     if (_.isUndefined(persons[personSlug])) {
@@ -88,7 +88,7 @@ var processLinkageData = function(linkage, mapData) {
     if (persons[personSlug]['companies'].indexOf(companySlug) == -1) {
       persons[personSlug]['companies'].push(companySlug);
       persons[personSlug]['concessions'] += concessions[partiesSlug];
-      persons[personSlug]['degree'] = persons[personSlug]['companies'].length;
+      //persons[personSlug]['degree'] = persons[personSlug]['companies'].length;
     }
   }
 };
