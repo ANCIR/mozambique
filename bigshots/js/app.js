@@ -21,8 +21,23 @@ var concessionsSel = null,
 
 
 d3.json('maps/moz_c.json', function(error, mapData) {
-  d3.csv('data/persons.csv', function(error, linkage) {
-    processLinkageData(linkage, mapData);
+  d3.json('data/graph.json', function(error, linkage) {
+    var parties_slugs = {};
+    for (var i in linkage.companies) {
+      var c = linkage.companies[i];
+      companies[c.slug] = c;
+    }
+    
+    for (var i in linkage.persons) {
+      var c = linkage.persons[i];
+      persons[c.slug] = c;
+    }
+    
+    for (var j in mapData.objects.concessions.geometries) {
+      var feat = mapData.objects.concessions.geometries[j];
+      feat.properties.slug = linkage.parties[feat.properties.parties];
+    }
+
     renderMap(mapData);
     renderLists();
     toggleLoading(false);
@@ -37,60 +52,6 @@ var nsSlug = function(cls, name) {
 
 var toggleLoading = function(state) {
   loadingEl.classed('hidden', !state);
-};
-
-
-var processLinkageData = function(linkage, mapData) {
-  var concessions = {};
-  companies = {};
-  persons = {};
-
-  for (var j in mapData.objects.concessions.geometries) {
-    var feat = mapData.objects.concessions.geometries[j];
-    var slug = feat.properties.slug = nsSlug('a', feat.properties.parties);
-    if (_.isUndefined(concessions[slug])) {
-      concessions[slug] = 0;
-    }
-    concessions[slug] += 1;
-  }
-
-  for (var i in linkage) {
-    var row = linkage[i];
-    var companySlug = nsSlug('c', row.company_name);
-    var personSlug = nsSlug('p', row.company_person_name);
-    var partiesSlug = nsSlug('a', row.conc_parties);
-
-    if (_.isUndefined(companies[companySlug])) {
-      companies[companySlug] = {
-        'name': row.company_name,
-        'slug': companySlug,
-        //'id': row.company_id,
-        //'date': row.company_date,
-        'concessions': concessions[partiesSlug],
-        'parties': partiesSlug, 
-        'persons': []
-      };
-    }
-    if (companies[companySlug]['persons'].indexOf(personSlug) == -1) {
-      companies[companySlug]['persons'].push(personSlug);
-      //companies[companySlug]['degree'] = companies[companySlug]['persons'].length;
-    }
-
-    if (_.isUndefined(persons[personSlug])) {
-      persons[personSlug] = {
-        'name': row.company_person_name,
-        'slug': personSlug,
-        'companies': [],
-        'concessions': 0,
-        //'roles': [] // TOOD PEP roles
-      };
-    }
-    if (persons[personSlug]['companies'].indexOf(companySlug) == -1) {
-      persons[personSlug]['companies'].push(companySlug);
-      persons[personSlug]['concessions'] += concessions[partiesSlug];
-      //persons[personSlug]['degree'] = persons[personSlug]['companies'].length;
-    }
-  }
 };
 
 
@@ -229,7 +190,6 @@ var hoverEntity = function(target, cls, inverted) {
     concessionsSel.classed(cls, false);
   } else {
     var relevant = relatedItems(target);
-    //console.log(relevant, filterState.hover);
     companiesSel.classed(cls, function(d) {
       return inverted ^ relevant.indexOf(d.slug) != -1;
     });

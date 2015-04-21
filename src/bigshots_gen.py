@@ -138,6 +138,7 @@ def load_aliases(table):
     return aliases
 
 all_c_aliases = load_aliases(company_aliases)
+parties_mappings = {}
 COMPANIES = {}
 for holder in HOLDERS:
     canon = all_c_aliases[holder['name']]
@@ -146,15 +147,17 @@ for holder in HOLDERS:
     if slug not in COMPANIES:
         COMPANIES[slug] = {
             'name': canon,
-            # 'slug': slug,
-            'parties': [],
+            'slug': slug,
+            # 'parties': [],
             'persons': [],
             'concessions': 0
         }
 
-    if holder['name'] not in COMPANIES[slug]['parties']:
-        COMPANIES[slug]['parties'].append(holder['name'])
+    if holder['name'] not in parties_mappings:
+        # COMPANIES[slug]['parties'].append(holder['name'])
         COMPANIES[slug]['concessions'] += holder['count']
+
+    parties_mappings[holder['name']] = slug
 
 
 print '* Identified %s concession-holding entities by %s names' % \
@@ -189,7 +192,7 @@ for person in PERSONS:
     if slug not in UPERSONS:
         UPERSONS[slug] = {
             'name': canon,
-            # 'slug': slug,
+            'slug': slug,
             'companies': [],
             'concessions': 0
         }
@@ -204,6 +207,9 @@ for person in PERSONS:
 print '* Identified %s unique persons' % len(UPERSONS)
 
 import json
-with open('tmp.json', 'wb') as fh:
-    json.dump({'persons': UPERSONS, 'companies': COMPANIES}, fh)
-
+with open('bigshots/data/graph.json', 'wb') as fh:
+    json.dump({
+        'persons': UPERSONS.values(),
+        'companies': COMPANIES.values(),
+        'parties': parties_mappings
+    }, fh)
