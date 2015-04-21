@@ -104,3 +104,14 @@ exports:
 	$(FREEZE) src/exports.yaml
 
 reports: clean-data pep-companies pep-concessions
+
+.PHONY: data/flexicadastre/geo/MZ.json
+data/flexicadastre/geo/MZ.json:
+	$(PY) src/flexicadastre_geo.py
+
+.PHONY: bigshots/data/graph.json
+bigshots/data/graph.json:
+	$(PY) src/bigshots_gen.py
+
+.PHONY: bigshots
+bigshots: data/flexicadastre/geo/MZ.json

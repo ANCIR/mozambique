@@ -10,6 +10,7 @@ except ImportError:
 from Levenshtein import distance
 from normality import normalize
 from common import database, DATA_PATH
+from layers import LAYERS
 
 flexi_table = database['mz_flexicadastre']
 hermes_company = database['hermes_company']
@@ -57,6 +58,7 @@ def get_names(table, name_field):
         if name not in names:
             names[name] = {
                 'name': name,
+                'layer': row.get('layer_name'),
                 'count': 0,
                 'fp': fingerprint(name)
             }
@@ -141,6 +143,9 @@ all_c_aliases = load_aliases(company_aliases)
 parties_mappings = {}
 COMPANIES = {}
 for holder in HOLDERS:
+    layer = holder.get('layer')
+    if layer not in LAYERS or not LAYERS[layer]:
+        continue
     canon = all_c_aliases[holder['name']]
 
     slug = make_slug('c', canon)

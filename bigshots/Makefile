@@ -1,7 +1,7 @@
 
 all: clean build
 
-build: maps/moz.json maps/moz_c.json data/persons.csv assets
+build: maps/moz.json maps/moz_c.json assets
 
 clean:
 	rm -f maps/moz.json
@@ -39,6 +39,7 @@ maps/moz.json: maps/admin1.zip maps/places.zip
 		maps/subunits.json \
 		maps/places.json
 
+.PHONY: maps/moz_c.json
 maps/moz_c.json: maps/admin1.zip maps/places.zip
 	topojson -o maps/concessions.json \
 		--properties layer=layer,parties=parties \
@@ -53,10 +54,6 @@ maps/moz_c.json: maps/admin1.zip maps/places.zip
 		maps/concessions.json \
 		maps/subunits.json \
 		maps/places.json
-
-data/persons.csv:
-	mkdir -p data
-	cp ../data/exports/concession_persons.csv data/persons.csv
 
 assets/deps.js:
 	bower install

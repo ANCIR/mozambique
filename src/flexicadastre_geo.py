@@ -8,6 +8,7 @@ import glob
 from pprint import pprint # noqa
 
 from common import DATA_PATH
+from layers import LAYERS
 
 SOURCE_PATH = os.path.join(DATA_PATH, 'flexicadastre', 'raw')
 try:
@@ -43,6 +44,9 @@ def parse_file(path):
     }
 
     for layer in ctx.get('layers'):
+        if layer['name'] not in LAYERS or not LAYERS[layer['name']]:
+            continue
+
         for fdata in layer.pop('data').get('features'):
             # print feature.get('geometry').get('rings')
             attrs = get_attrs(fdata)
@@ -64,7 +68,7 @@ def parse_file(path):
                 }
             }
             out['features'].append(feature)
-        pprint(layer)
+        # pprint(layer)
 
     out_path = os.path.basename(path)
     with open(os.path.join(DEST_PATH, out_path), 'wb') as fh:
