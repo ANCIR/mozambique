@@ -21,7 +21,7 @@ QUERY = {
     'geometryType': 'esriGeometryPolygon',
     'spatialRel': 'esriSpatialRelIntersects',
     #'units': 'esriSRUnit_Meter',
-    'outSR': 4326,  # wgs 84
+    'outSR': 102100,  # wgs 84
     'resultRecordCount': 500,
     'resultOffset': 0,
     'returnGeometry': 'true',

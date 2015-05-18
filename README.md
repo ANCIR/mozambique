@@ -129,7 +129,7 @@ SELECT DISTINCT rel_label, rel_key FROM hermes_relation;
  Sócios instituições : | ``socios_instituicoes``  | related institutions
  Sócios pessoas :      | ``socios_pessoas``       | related people
  Lugar da sede :       | ``lugar_da_sede``        | headquarters
- 
+
 Next, we can try and make a connection between the PEP table and the 'associated people'.
 
 ```sql
@@ -335,6 +335,18 @@ SELECT co.nome_da_entidade AS hermes_name,
 **[results](http://databin.pudo.org/t/f701d5)**
 
 There aren't many results, so that avenue of research doesn't seem very promising (it's worth checking back in on it once we've done a significant amount of data cleaning).
+
+### Manually reconciled company names
+
+Next, we wanted to improve the linkage between company names in Hermes and Flexicadastre. To this end, two approaches were adopted in parallel:
+
+* Uploading all Hermes company names to an instance of [nomenklatura](https://github.com/pudo/nomenklatura), which provides an OpenRefine reconciliation API. This allows a user to manually reconcile all candidates in the FlexiCadastre dataset against their best match in Hermes using the [OpenRefine reconciliation interface](https://github.com/OpenRefine/OpenRefine/wiki/Reconciliation).
+
+* Manually generating two tables of mappings within the database, with each company/person name occuring in the source data, and a canonical/normalized version. This table can be exported to CSV, cleaned in an external application, and then be re-imported into the application.
+
+The command for the latter approach is ``make dedupe`` - this will load existing CSV alias files, generate new mappings from source data, and dump the output.
+
+
 
 ## Glossary
 

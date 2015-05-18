@@ -1,0 +1,8 @@
+common:
+  prefix: reports
+  format: csv
+
+exports:
+  - filename: "mz_flexicadastre.csv"
+    query: >
+      SELECT * FROM mz_flexicadastre;
