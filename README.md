@@ -385,6 +385,7 @@ SELECT DISTINCT fx.layer_name AS conc_layer_name,
         AND fxa.name_norm = hca.name_norm
         AND hr.rel_key = 'socios_pessoas'
         AND pe.full_name_norm IS NOT NULL
+        AND LENGTH(pe.full_name_norm) > 2
         AND LEVENSHTEIN(hr.target_name_norm, pe.full_name_norm) < 3;
 ```
 
