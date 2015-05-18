@@ -231,3 +231,13 @@ SELECT co.nome_da_entidade AS hermes_name,
         AND co.nome_da_entidade_norm = cc.company_name_norm
         AND cr.target_cw_id = cc.cw_id
         AND cr.source_cw_id = cp.cw_id;
+
+
+SELECT COUNT(DISTINCT coa.name_norm)
+    FROM
+        hermes_company AS co, mz_flexicadastre AS fx,
+        dedupe_company AS coa, dedupe_company AS fxa
+    WHERE
+        coa.name_plain = co.nome_da_entidade
+        AND fxa.name_plain = fx.parties
+        AND fxa.name_norm = coa.name_norm;

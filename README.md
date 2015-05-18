@@ -346,7 +346,18 @@ Next, we wanted to improve the linkage between company names in Hermes and Flexi
 
 The command for the latter approach is ``make dedupe`` - this will load existing CSV alias files, generate new mappings from source data, and dump the output.
 
+Using such mapping tables, joins between the tables can be performed like this:
 
+```sql
+SELECT COUNT(DISTINCT coa.name_norm)
+    FROM
+        hermes_company AS co, mz_flexicadastre AS fx,
+        dedupe_company AS coa, dedupe_company AS fxa
+    WHERE
+        coa.name_plain = co.nome_da_entidade
+        AND fxa.name_plain = fx.parties
+        AND fxa.name_norm = coa.name_norm;
+```
 
 ## Glossary
 
