@@ -1,41 +1,5 @@
 company_id,company_name,company_person_name,pep_given_name,pep_family_name,pep_menbership_role,pep_organization_name
-30710,"Associação Cooperativa dos Transportes de Maputo, Manhiça, Palmeira e Magude MAXIMA",Joaquim Quive,Joaquim,Sive,Commander,Provincial command of the police/cabo delgado
-71204,"Pedras Preciosas de Moçambique, Limitada",Zacarias Cossa,Zacarias,Cossa,Financial Manager,Petromoc
-52906,"Norbrita, Limitada",Paulo Auade,Paulo,Auade,Governor,Tete Goverment
-14112,"Nhama Comercial, Limitada",Marina Pachinuapa,Marina,Pachinuapa,member,Central Committee
-14112,"Nhama Comercial, Limitada",Marina Pachinuapa,Marina,Pachinuapa,___,National Consul of Defense and Safety
-13000,"Malmô e Fonte Boa Consultores, Limitada",Alberto Simão,Alberto,Simão,CEO,Emose
-59117,"P.V. Investimentos, Limitada",Prakash Prehlad,Prakash,Prehled,Employee Representative,INSS
-35700,Associação dos Amigos da Ilha de Moçambique - AAIM,Marcelino dos Santos,Marcelino,Dos Santos,member,Central Committee
-46600,"Hua An - Minerais de Moçambique, Limitada",Ganha Am Kom,Ganha,Ah Khom,member,Central Committee
-47800,"Fly & Service Express, Limitada",Alfredo Cossa,Alfredo,Mussa,Commander,Provincial Command of the police/Maputo city
-56700,"Bisanka Lápides Nampula, Limitada",Paulo Auade,Paulo,Auade,Governor,Tete Goverment
-53418,"Helianthus, Sociedade Unipessoal, Limitada",João Maia,João,Mesa,Human Resours sector,Mozambique Airplain
-12820,"Proton Computer, Limitada",João Jorge,João,Jorge,Operacional administes,LAM
-53102,"Kapson Mozambique, Limitada",Manuel José,Manuel,Tomé,member,Central Committee
-57602,"A.M.S. Construções-Construções - Sociedade Unipessoal, Limitada",Carlos dos Santos,Carlos,Dos Santos,Embassada,Reino Unido Embassy
-29203,"IH - Investimentos & Hidrocarbonetos, Limitada",Paulino Gregório,Paulino,Gregório,Administrator  of sector project and development,ENH
-13104,"X - Tema Construção e Imobiliária, Limitada",Carlos dos Santos,Carlos,Dos Santos,Embassada,Reino Unido Embassy
-16104,"Amati Engineering, Limitada",Alfredo Mussiza,Alfredo,Mussa,Commander,Provincial Command of the police/Maputo city
-20804,"Recauchutagem Maxixe, Limitada",Alberto Dima,Alberto,Simão,CEO,Emose
-20804,"Recauchutagem Maxixe, Limitada",Alberto Dima,Alberto,Bila,Admistraror,Central Bank
-27804,Associação da Mulher para Evangelização e Desenvolvimento - ASSOMED,Ana Comoane,Ana,Comoana,vice-minister,Culture and Tourism
-27804,Associação da Mulher para Evangelização e Desenvolvimento - ASSOMED,Ana Comoane,Ana,Comoane,member,Central Committee
-14605,"Dora Consultores, Limitada",Maria João,Maria,Jonas,member,Central Committee
-26405,Associação Provincial de Produtores Agro-Pecuários e Madeiras da Zambézia APAMAZ,Eugénio Amisse,Eugénio,Ubisse,Secretary,
-42105,"3GM Project Management Company Mozambique, Limitada",Paulo Muchanga,Paulo,Muchanaga,substitute,Central Committee
-62105,"Salafo Investimentos, Limitada",Carvalho Muária,Carvalho,Múaria,member,Central Committee
-71205,"Fábrica de Mobílias do Dondo, Limitada",Zacarias Cossa,Zacarias,Cossa,Financial Manager,Petromoc
-22025,"Whatana Investment Group, Limitada",Graça Machel,Graça,Machel,member,Central Committee
-22025,"Whatana Investment Group, Limitada",Marina Pachinuapa,Marina,Pachinuapa,member,Central Committee
-22025,"Whatana Investment Group, Limitada",Marina Pachinuapa,Marina,Pachinuapa,___,National Consul of Defense and Safety
-6706,"A.C.L. Armazéns do Centro, Limitada",Prakash Prehlad,Prakash,Prehled,Employee Representative,INSS
-10107,"Mozauto - Automóveis e Acessórios de Moçambique, SARL",Mohamed Rashid Sulemane,Mohamedrashid,Sulemane,Administrative Consul/MDM,Parliament
-58425,Associação Aliança Juvenil para a Comunidade,Armando José,Arlindo,José,member,Central Committee
-52607,"MGC - Moz Golf Courses, Limitada",Moisés Machava,Moisés,Machava,Brigadier,National Consul of Defense and safety
-14908,"Sisgest, Limitada",Mário Mate,Maria,Mate,Embassada,Malawi Embassy
 69208,"Focus Data Services, Limitada",Elisa Machava,Eliseu,Machava,member,Central Committee
-58529,Associação Agro-pecuária CUSUANANA,Maria João,Maria,Jonas,member,Central Committee
 4610,"LEMOL, Limitada - Indústria de Leite e Lacticínios de Moçambique, Limitada",Marcelino dos Santos,Marcelino,Dos Santos,member,Central Committee
 67210,"ENGCO, Limitada",Mariano Matsinhe,Mariamo,Matsinha,chairman of the general meeting,Emose
 67210,"ENGCO, Limitada",Mariano Matsinhe,Mariano,Matsinha,member,Central Committee
@@ -53,6 +17,7 @@ company_id,company_name,company_person_name,pep_given_name,pep_family_name,pep_m
 67913,"Guarnição e Segurança Privada, Limitada",Joaquim Silva,Joaquim,Siúta,CEO,INSS
 67913,"Guarnição e Segurança Privada, Limitada",Joaquim Silva,Joaquim,Sive,Commander,Provincial command of the police/cabo delgado
 13614,Cooperativa Agro-Pecuária de Matir-Búzi,Manuel José,Manuel,Tomé,member,Central Committee
+30710,"Associação Cooperativa dos Transportes de Maputo, Manhiça, Palmeira e Magude MAXIMA",Joaquim Quive,Joaquim,Sive,Commander,Provincial command of the police/cabo delgado
 47214,"Avícola de Tete, Limitada",Sérgio Vieira,Sérgio,Vieira,substitute,Central Committee
 56314,"BCB Niassa, Limitada",Paulo Auade,Paulo,Auade,Governor,Tete Goverment
 9314,"Proton Computer, Limitada",João Jorge,João,Jorge,Operacional administes,LAM
@@ -75,6 +40,7 @@ company_id,company_name,company_person_name,pep_given_name,pep_family_name,pep_m
 64419,"Mintirho Group, Limitada",Deolinda Guezimane,Deolinda,Guezimane,member,Central Committee
 4121,"Eranac Importação e Exportação, Limitada",Ernesto José,Ernesto,Gove,Governor,Central Bank
 44021,Associação dos Vendedores do Mercado de Chibuto -AVMC,Ofélia Machava,Amélia,Machava,Chief Ahorney/Maputo,Ahorney
+22025,"Whatana Investment Group, Limitada",Graça Machel,Graça,Machel,member,Central Committee
 26323,"Global Segurança, Limitada",Alfredo Musse,Alfredo,Mussa,Commander,Provincial Command of the police/Maputo city
 33423,"Servicon, Limitada",José Dai,José,San,Commander/ officer,Border police
 4223,"Lafinanciere Moçambique, S.A.R.L.",Morais Mabyeka,Morais,Mabyeka,member,Central Committee
@@ -86,8 +52,8 @@ company_id,company_name,company_person_name,pep_given_name,pep_family_name,pep_m
 51526,"FSC Assistência, Limitada",Timóteo Fuel,Timóteo,Fuel,substitute,Central Committee
 16427,Associação Agrícola de Chinjinguir,Alberto Romão,Alberto,Simão,CEO,Emose
 68127,"New Solar, Limitada",Edgar Cossa,Edgar,Cossa,Goverment Representative,EDM
-10452,"Padaria Choupal, Limitada",Paulo Auade,Paulo,Auade,Governor,Tete Goverment
 35928,"Montepuez Property, Limitada",Paulo Muchanga,Paulo,Muchanaga,substitute,Central Committee
+58529,Associação Agro-pecuária CUSUANANA,Maria João,Maria,Jonas,member,Central Committee
 53028,"Team Clean, Limitada",Fernando Valoi,Fernando,Baloi,Not executive Director,Emose
 21530,"Padaria Choupal, Limitada",Paulo Amade,Paulo,Auade,Governor,Tete Goverment
 32830,"Universo do Chinelo, Limitada",Prakash Prehlad,Prakash,Prehled,Employee Representative,INSS
@@ -106,41 +72,63 @@ company_id,company_name,company_person_name,pep_given_name,pep_family_name,pep_m
 55235,"Xifihlulu Eventos - Catering, Limitada",Joana Mondlane,Joana,Modlana,member,Cenral committe
 60735,"Diver-Tech, Limitada",José Dai,José,San,Commander/ officer,Border police
 48962,"First Tech Solutions - Consultoria e Serviços, Limitada",Arnaldo Cumbe,Arnaldo,Bimbe,member,Central Committee
+10452,"Padaria Choupal, Limitada",Paulo Auade,Paulo,Auade,Governor,Tete Goverment
 67839,"Carnes do Zambeze, Limitada",Sérgio Vieira,Sérgio,Vieira,substitute,Central Committee
 19640,"Sociedade de Desenvolvimento e Hidrocarbonetos, S.A.R.L.",Tavares Martinho,Tavares,Martinho,Administrator of Hidrocarbon Exploration Sector,ENH
 35340,Associação dos Moradores das Mahotas,Sérgio Vieira,Sérgio,Vieira,substitute,Central Committee
+71204,"Pedras Preciosas de Moçambique, Limitada",Zacarias Cossa,Zacarias,Cossa,Financial Manager,Petromoc
 4640,"Agro-Mineira do Gilé, Limitada",Luís Herculano,Luis,Herculano,Geral secretary,Administrative Court
+52906,"Norbrita, Limitada",Paulo Auade,Paulo,Auade,Governor,Tete Goverment
 51341,"Sistemas de Energias de Moçambique, Limitada",Marina Pachinuapa,Marina,Pachinuapa,member,Central Committee
 51341,"Sistemas de Energias de Moçambique, Limitada",Marina Pachinuapa,Marina,Pachinuapa,___,National Consul of Defense and Safety
 8041,"Zambeze Investimentos, S.A.R.L.",Sérgio Vieira,Sérgio,Vieira,substitute,Central Committee
 16642,"Petropharm, Limitada",Graça Machel,Graça,Machel,member,Central Committee
+14112,"Nhama Comercial, Limitada",Marina Pachinuapa,Marina,Pachinuapa,member,Central Committee
+14112,"Nhama Comercial, Limitada",Marina Pachinuapa,Marina,Pachinuapa,___,National Consul of Defense and Safety
 27042,"SOGADO - Cooperativa de Criadores de Gado de Sofala, SCRL",Joaquim Veríssimo,Joaquim,Verissimo,vice-minister,"Justice, constitutional and religious affairs"
 12570,"Padaria Compone, Limitada",Paulo Auade,Paulo,Auade,Governor,Tete Goverment
 16843,"Nhama Comercial, Limitada",Marina Pachinuapa,Marina,Pachinuapa,member,Central Committee
 16843,"Nhama Comercial, Limitada",Marina Pachinuapa,Marina,Pachinuapa,___,National Consul of Defense and Safety
 16843,"Nhama Comercial, Limitada",Teresa Tembo,Teresa,Tembo,member,Central Committee
+13000,"Malmô e Fonte Boa Consultores, Limitada",Alberto Simão,Alberto,Simão,CEO,Emose
 10944,"Entramar, Limitada",Paulo Auade,Paulo,Auade,Governor,Tete Goverment
 19544,"B e B Company, Limited",Prakash Prehlad,Prakash,Prehled,Employee Representative,INSS
 24144,"Tabacaria Zambeze, Limitada",Ernesto José,Ernesto,Gove,Governor,Central Bank
+59117,"P.V. Investimentos, Limitada",Prakash Prehlad,Prakash,Prehled,Employee Representative,INSS
 34144,"Orbittelcom, Limitada",José Dai,José,San,Commander/ officer,Border police
+35700,Associação dos Amigos da Ilha de Moçambique - AAIM,Marcelino dos Santos,Marcelino,Dos Santos,member,Central Committee
 21745,"Trabalho e Seguros - G. Mavila, Consultores e Advogados Associados, Limitada",Luís Herculano,Luis,Herculano,Geral secretary,Administrative Court
+46600,"Hua An - Minerais de Moçambique, Limitada",Ganha Am Kom,Ganha,Ah Khom,member,Central Committee
+47800,"Fly & Service Express, Limitada",Alfredo Cossa,Alfredo,Mussa,Commander,Provincial Command of the police/Maputo city
 59845,"Angels Cosméticos Sociedade Unipessoal, Limitada",Sádia Mussagy,Gania,Mussagy,Permanent Commission/Renamo,Parliament
+56700,"Bisanka Lápides Nampula, Limitada",Paulo Auade,Paulo,Auade,Governor,Tete Goverment
 62845,"V & P, Limitada",Paulo Muchanga,Paulo,Muchanaga,substitute,Central Committee
 20646,"Nós Câmbios, Limitada",Jeremias Tchamo,Jeremias,Tchamo,Finance Administrator,LAM
+53418,"Helianthus, Sociedade Unipessoal, Limitada",João Maia,João,Mesa,Human Resours sector,Mozambique Airplain
 45447,"G.V Pala - Pala Safaris, Limitada",Ganha Ah Kom,Ganha,Ah Khom,member,Central Committee
 45447,"G.V Pala - Pala Safaris, Limitada",Joaquim Veríssimo,Joaquim,Verissimo,vice-minister,"Justice, constitutional and religious affairs"
 21148,"Nós Câmbios, Limitada",Jeremias Tchamo,Jeremias,Tchamo,Finance Administrator,LAM
+12820,"Proton Computer, Limitada",João Jorge,João,Jorge,Operacional administes,LAM
 44149,"Engerojh e Serviços, S.A.",Rosário Mualeia,Rosário,Mualeia,member,Central Committee
 71849,Associação Juma,Alberto Gomes,Alberto,Gomes,Administrative Consul,TDM(Mozambique telecomunication)
 29450,Mineral dos Combatentes da Luta de Libertação de Desmobilizados,Mouzinho Sande,Mouzinho,Saide,vice-minister,Health
+53102,"Kapson Mozambique, Limitada",Manuel José,Manuel,Tomé,member,Central Committee
+57602,"A.M.S. Construções-Construções - Sociedade Unipessoal, Limitada",Carlos dos Santos,Carlos,Dos Santos,Embassada,Reino Unido Embassy
 58250,Associação Agro-pecuária Kuchenda Kuakanaka Chicuecue,Maria João,Maria,Jonas,member,Central Committee
 71850,Associação Jovens Unidos para Mudança de Atitude - JUMA,Alberto Gomes,Alberto,Gomes,Administrative Consul,TDM(Mozambique telecomunication)
+29203,"IH - Investimentos & Hidrocarbonetos, Limitada",Paulino Gregório,Paulino,Gregório,Administrator  of sector project and development,ENH
 61851,"SKPC - Sociedade de Consultoria de Projectos e Contabilidade, Limitada",Manuel Mário,Manuel,Maria,member,Central Committee
 17752,"ENGEL - Engenheiros Electrotécnicos, Limitada",Moisés Machava,Moisés,Machava,Brigadier,National Consul of Defense and safety
 48752,"Mako Security Solutions Mozambique, Limitada",Paulo Muchanga,Paulo,Muchanaga,substitute,Central Committee
 53752,"Mirage Premium, Limitada",Daúd Omar,Raúl,Omar,Commander,Provincial Command of the police/Gaza
 1153,"Paraíso das Modas Moçambicanas, Limitada",Alberto Dima,Alberto,Simão,CEO,Emose
 1153,"Paraíso das Modas Moçambicanas, Limitada",Alberto Dima,Alberto,Bila,Admistraror,Central Bank
+13104,"X - Tema Construção e Imobiliária, Limitada",Carlos dos Santos,Carlos,Dos Santos,Embassada,Reino Unido Embassy
+16104,"Amati Engineering, Limitada",Alfredo Mussiza,Alfredo,Mussa,Commander,Provincial Command of the police/Maputo city
+20804,"Recauchutagem Maxixe, Limitada",Alberto Dima,Alberto,Simão,CEO,Emose
+20804,"Recauchutagem Maxixe, Limitada",Alberto Dima,Alberto,Bila,Admistraror,Central Bank
+27804,Associação da Mulher para Evangelização e Desenvolvimento - ASSOMED,Ana Comoane,Ana,Comoana,vice-minister,Culture and Tourism
+27804,Associação da Mulher para Evangelização e Desenvolvimento - ASSOMED,Ana Comoane,Ana,Comoane,member,Central Committee
 19755,"Nhanombe Lodge Bay, Limitada",Eugénio Simbe,Eugénio,Simão,substitute,Central Committee
 62685,"Marivone Catering & Serviços, Limitada",Marina Pachinuapa,Marina,Pachinuapa,member,Central Committee
 62685,"Marivone Catering & Serviços, Limitada",Marina Pachinuapa,Marina,Pachinuapa,___,National Consul of Defense and Safety
@@ -148,22 +136,30 @@ company_id,company_name,company_person_name,pep_given_name,pep_family_name,pep_m
 46655,"Sengo Ecoturismo, Limitada",Henriques Bonjece,henriques,Bongece,member,Central Committee
 50555,"Vivre Consultoria - Sociedade Unipessoal, Limitada",Valentina Guebuza,valentina,Guebuza,member,Central Committee
 41586,"Petro Vendas, Limitada",Marcelina dos Santos,Marcelino,Dos Santos,member,Central Committee
+14605,"Dora Consultores, Limitada",Maria João,Maria,Jonas,member,Central Committee
 29556,APOANA - Associação dos Agriculturores do Posto Administrativo de Namialo,Bernardo Cotia,Bernardo,Cossa,Tax Consul/Vogal,"Mcel,SA(Mozambique Celular)"
-37356,"Minerais de Moçambique, Limitada",Ganha Ah Kom,Ganha,Ah Khom,member,Central Committee
+26405,Associação Provincial de Produtores Agro-Pecuários e Madeiras da Zambézia APAMAZ,Eugénio Amisse,Eugénio,Ubisse,Secretary,
 71356,"Nkolele Investimentos, Limitada",Paulo Muchanga,Paulo,Muchanaga,substitute,Central Committee
 7556,A.D.D.C. - Associação dos Defensores dos Direitos da Criança,Patrício José,Patrício,José,vice-minister,National defense
+42105,"3GM Project Management Company Mozambique, Limitada",Paulo Muchanga,Paulo,Muchanaga,substitute,Central Committee
 35957,"Palma Island Property, Limitada",Paulo Muchanga,Paulo,Muchanaga,substitute,Central Committee
 37357,"Minerais de Moçambique, Limitada",Ganha Ah Kom,Ganha,Ah Khom,member,Central Committee
-38288,"MIC, Limitada",Ganha Ah Kom,Ganha,Ah Khom,member,Central Committee
 57557,"Global Group, Limitada",Carlos dos Santos,Carlos,Dos Santos,Embassada,Reino Unido Embassy
 60557,Associação Júlia Billiart,Maria Riffel,Maria,Rafael,member,Central Committee
+62105,"Salafo Investimentos, Limitada",Carvalho Muária,Carvalho,Múaria,member,Central Committee
+71205,"Fábrica de Mobílias do Dondo, Limitada",Zacarias Cossa,Zacarias,Cossa,Financial Manager,Petromoc
 3458,"Indústria Transporte e Comércio, Limitada",Morais Mabjeka,Morais,Mabyeka,member,Central Committee
+38288,"MIC, Limitada",Ganha Ah Kom,Ganha,Ah Khom,member,Central Committee
 32559,"DKS Desenvolvimento, Limitada",Eugénio Simbe,Eugénio,Simão,substitute,Central Committee
 47459,"Maputo Gift Shop - Sociedade Unipessoal, Limitada",Sádia Mussagy,Gania,Mussagy,Permanent Commission/Renamo,Parliament
 48259,"Mako Security Solutions Mozambique, Limitada",Paulo Muchanga,Paulo,Muchanaga,substitute,Central Committee
+22025,"Whatana Investment Group, Limitada",Marina Pachinuapa,Marina,Pachinuapa,member,Central Committee
+22025,"Whatana Investment Group, Limitada",Marina Pachinuapa,Marina,Pachinuapa,___,National Consul of Defense and Safety
+6706,"A.C.L. Armazéns do Centro, Limitada",Prakash Prehlad,Prakash,Prehled,Employee Representative,INSS
+10107,"Mozauto - Automóveis e Acessórios de Moçambique, SARL",Mohamed Rashid Sulemane,Mohamedrashid,Sulemane,Administrative Consul/MDM,Parliament
+58425,Associação Aliança Juvenil para a Comunidade,Armando José,Arlindo,José,member,Central Committee
 28961,"SOUTRANS, Limitada - Sociedade Unida Transportes",Manuel Magaia,Manuel,Maria,member,Central Committee
 36161,"Carvalho Muária & Graciosa Muária - Agro-Pecuária, Indústria Moageira, Transportes e Comércio Geral, Limitada",Carvalho Muária,Carvalho,Múaria,member,Central Committee
-3661,"Transportes Virgínia, Limitada",João José,João,Jorge,Operacional administes,LAM
 50961,"Conjane - Transporte Aéreo, Limitada",David Simango,David,Simango,member,Central Committee
 7061,"MARISANU - Sociedade Turística, Limitada",Maria Pachinuapa,Marina,Pachinuapa,member,Central Committee
 7061,"MARISANU - Sociedade Turística, Limitada",Maria Pachinuapa,Marina,Pachinuapa,___,National Consul of Defense and Safety
@@ -171,8 +167,10 @@ company_id,company_name,company_person_name,pep_given_name,pep_family_name,pep_m
 19162,Associação Agro-Pécuária Eduardo Mondlane de Marrambajane,Maria Mate,Maria,Mate,Embassada,Malawi Embassy
 19162,Associação Agro-Pécuária Eduardo Mondlane de Marrambajane,Maria Mate,Maria,Wane,Administrator,Petromoc
 3862,"Sociedade de Fundições de Metais - Tete, Limitada",Orlando José,Arlindo,José,member,Central Committee
+52607,"MGC - Moz Golf Courses, Limitada",Moisés Machava,Moisés,Machava,Brigadier,National Consul of Defense and safety
 16663,Agro-Pecuária Noma Associados - NOMA,João José,João,Jorge,Operacional administes,LAM
 22563,Associação Criação de Caprinos e Suínos de Pindanganga,Francisco Almeida,Francisco,Almeida,Commander,Provincial Command of the Police/Tete
+14908,"Sisgest, Limitada",Mário Mate,Maria,Mate,Embassada,Malawi Embassy
 24164,"Sisgest, Limitada",Mário Mate,Maria,Mate,Embassada,Malawi Embassy
 53567,"Pedreira de Cariua, Limitada-R.A.B. Construções",Abel Nuro,Abel,Nuro,Commander,Provincial command of the police/Nampula
 22968,Centro de Documentação Samora Machel,Graça Machel,Graça,Machel,member,Central Committee
@@ -180,6 +178,7 @@ company_id,company_name,company_person_name,pep_given_name,pep_family_name,pep_m
 23369,"Padaria Choupal, Limitada",Paulo Auade,Paulo,Auade,Governor,Tete Goverment
 35669,Associação Chithandizo,José Pio,José,Psico,member,Central Committee
 50469,Associação Islâmica de Moçambique,Abdulla Esmail,Abdula,Esmail,member,Central Committee
+51503,"GE - Solutions, Limitada",Moisés Machava,Moisés,Machava,Brigadier,National Consul of Defense and safety
 46470,"Easy Services, Limitada",Alfredo Cossa,Alfredo,Mussa,Commander,Provincial Command of the police/Maputo city
 21971,"Escola de Arte Musical Chopin, Limitada",Joaquim Muxlhanga,Joaquim,Muchanga,member,Central Committee
 20072,"Salinas Vitória, Limitada",Paulo Muchanga,Paulo,Muchanaga,substitute,Central Committee
@@ -190,11 +189,13 @@ company_id,company_name,company_person_name,pep_given_name,pep_family_name,pep_m
 21274,A.C. Muthu Lalaua - Associação dos Camponeses de Muthuthuine,Alberto Píquina,Alberto,Vaquina,member,Political Commission
 21274,A.C. Muthu Lalaua - Associação dos Camponeses de Muthuthuine,Alberto Píquina,Alberto,Vaquina,member,Central Committee
 55074,"Serralharia Ferro Matola, Limitada",Paulo Muchanga,Paulo,Muchanaga,substitute,Central Committee
+20806,"Recauchutagem Maxixe, Limitada",Alberto Dima,Alberto,Simão,CEO,Emose
+20806,"Recauchutagem Maxixe, Limitada",Alberto Dima,Alberto,Bila,Admistraror,Central Bank
 29576,ARCMM - Associação Rádio Comunitária Mira-Logos de Mecanhelas,Lucas Jeremias,Lucas,Jeremias,member,Central Committee
 376,"Elias Haziz, Limitada",Alberto Mongane,Alberto,Mondlane,Governor,Manica Goverment
 41177,"D & O Construções, Limitada",Orlando José,Arlindo,José,member,Central Committee
-30377,"Sagripec - Sociedade Agro-Pecuária, Limitada",Fernando Cossa,Bernardo,Cossa,Tax Consul/Vogal,"Mcel,SA(Mozambique Celular)"
 5378,"Sisgest, Limitada",Mário Mate,Maria,Mate,Embassada,Malawi Embassy
+30377,"Sagripec - Sociedade Agro-Pecuária, Limitada",Fernando Cossa,Bernardo,Cossa,Tax Consul/Vogal,"Mcel,SA(Mozambique Celular)"
 71078,"E.MED - Consultoria e Tecnologias Avançadas em Saúde, Limitada",José Bau,José,San,Commander/ officer,Border police
 19579,Associação dos Camponeses de Mavalane,Mário António,Maria,António,member,Central Committee
 12380,EDU-MOZ -  Associação para a promoção da Educação e Desenvolvimento de Moçambique,Esselina Macome,Esselina,Macome,Administrator,Central Bank
@@ -227,7 +228,6 @@ company_id,company_name,company_person_name,pep_given_name,pep_family_name,pep_m
 3892,"Indústria de Colchões de Espuma (Moçaflex, Limitada)",Marcelino dos Santos,Marcelino,Dos Santos,member,Central Committee
 10993,"MASO, Limitada",Paulo Auade,Paulo,Auade,Governor,Tete Goverment
 35593,"Geoconsulting, Limitada",Paulino Gregório,Paulino,Gregório,Administrator  of sector project and development,ENH
-5393,Programa de Promoção dos Veteranos de Moçambique,Chrispen Matches,Chrispen,Matches,member,Central Committee
 59893,Associação Mãe a Cuverana,Maria Pedro,Kátia,Pedro,Judges,Administrative Court/Maputo city
 66093,"Nanv Moçambique, Limitada",Marina Pachinuapa,Marina,Pachinuapa,member,Central Committee
 66093,"Nanv Moçambique, Limitada",Marina Pachinuapa,Marina,Pachinuapa,___,National Consul of Defense and Safety
@@ -242,9 +242,9 @@ company_id,company_name,company_person_name,pep_given_name,pep_family_name,pep_m
 8599,ASSOCIAÇÃO HUMANA - Associação Humanitária Setentrional Moçambicana,Julieta António,Julieta,António,member,Central Committee
 30770,"Bog Moçambique, Limitada",Luís Silva,Luis,Silva,Embassada,Swaziland embassy
 56699,"BCB Niassa, Limitada",Paulo Auade,Paulo,Auade,Governor,Tete Goverment
-51503,"GE - Solutions, Limitada",Moisés Machava,Moisés,Machava,Brigadier,National Consul of Defense and safety
-20806,"Recauchutagem Maxixe, Limitada",Alberto Dima,Alberto,Simão,CEO,Emose
-20806,"Recauchutagem Maxixe, Limitada",Alberto Dima,Alberto,Bila,Admistraror,Central Bank
+37356,"Minerais de Moçambique, Limitada",Ganha Ah Kom,Ganha,Ah Khom,member,Central Committee
+3661,"Transportes Virgínia, Limitada",João José,João,Jorge,Operacional administes,LAM
+5393,Programa de Promoção dos Veteranos de Moçambique,Chrispen Matches,Chrispen,Matches,member,Central Committee
 40957,"Conjane, Limitada",David Simango,David,Simango,member,Central Committee
 17787,"Maso, Limitada",Paulo Auade,Paulo,Auade,Governor,Tete Goverment
 47789,"Norinvest, Limitada",Paulo Auade,Paulo,Auade,Governor,Tete Goverment

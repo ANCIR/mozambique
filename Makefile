@@ -92,6 +92,7 @@ dedupe:
 	$(PSQL) -c "DELETE FROM dedupe_person;"
 	$(DUPECSV) --tables dedupe_person data/dedupe/persons.csv
 	$(PSQL) -f src/dedupe.sql
+	$(PY) src/dedupe_refine.py
 	$(FREEZE) src/dedupe.yaml
 
 clean-data: sqlsetup
