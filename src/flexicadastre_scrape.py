@@ -7,12 +7,16 @@ import re
 from common import DATA_PATH
 
 SITES = {
+    'BW': 'http://portals.flexicadastre.com/botswana/',
+    'UG': 'http://portals.flexicadastre.com/uganda/',
     'NA': 'http://portals.flexicadastre.com/Namibia/',
     'MZ': 'http://portals.flexicadastre.com/mozambique/en/',
     'KE': 'http://map.miningcadastre.go.ke/map',
     'RW': 'http://portals.flexicadastre.com/rwanda/',
     'TZ': 'http://portal.mem.go.tz/map/',
-    'CD': 'http://portals.flexicadastre.com/drc/en/'
+    'ZM': 'http://portals.flexicadastre.com/zambia/',
+    'CD': 'http://portals.flexicadastre.com/drc/en/',
+    'SS': 'http://portals.flexicadastre.com/southsudan/'
 }
 
 QUERY = {
