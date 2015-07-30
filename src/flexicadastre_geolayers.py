@@ -34,9 +34,6 @@ def parse_file(path):
     with open(path, 'rb') as fh:
         ctx = json.load(fh)
 
-    if ctx['source_name'] not in ['TZ']:
-        return
-
     for layer in ctx.get('layers'):
         out = {
             "type": "FeatureCollection",
