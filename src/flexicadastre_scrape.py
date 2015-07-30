@@ -1,10 +1,13 @@
 from itertools import count
+import logging
 import requests
 import json
 import os
 import re
 
 from common import DATA_PATH
+
+log = logging.getLogger('flexiscrape')
 
 SITES = {
     'BW': 'http://portals.flexicadastre.com/botswana/',
@@ -89,14 +92,17 @@ def scrape_configs():
             'layers': []
         }
 
-        for service in cfg['MapServices']:
-            if service['MapServiceType'] == 'Features':
-                rest_url = service['RestUrl']
-                data = scrape_layers(sess, data, token, rest_url)
+        try:
+            for service in cfg['MapServices']:
+                if service['MapServiceType'] == 'Features':
+                    rest_url = service['RestUrl']
+                    data = scrape_layers(sess, data, token, rest_url)
 
-        path = os.path.join(STORE_PATH, '%s.json' % name)
-        with open(path, 'wb') as fh:
-            json.dump(data, fh)
+            path = os.path.join(STORE_PATH, '%s.json' % name)
+            with open(path, 'wb') as fh:
+                json.dump(data, fh)
+        except Exception, e:
+            log.exception(e)
 
 
 if __name__ == '__main__':
